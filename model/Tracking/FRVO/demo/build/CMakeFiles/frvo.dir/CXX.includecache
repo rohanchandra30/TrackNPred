@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/uttaran/Codes/Gamma/DensePeds/FRVO/demo/frvo.cpp
+iostream
+-
+fstream
+-
+cstring
+-
+stdio.h
+-
+stdlib.h
+-
+vector
+-
+omp.h
+-
+RVO/RVO.h
+-
+RVO.h
+/home/uttaran/Codes/Gamma/DensePeds/FRVO/demo/RVO.h
+

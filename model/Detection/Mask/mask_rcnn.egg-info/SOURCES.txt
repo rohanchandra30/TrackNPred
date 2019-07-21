@@ -1,0 +1,9 @@
+MANIFEST.in
+README.md
+requirements.txt
+setup.cfg
+setup.py
+mask_rcnn.egg-info/PKG-INFO
+mask_rcnn.egg-info/SOURCES.txt
+mask_rcnn.egg-info/dependency_links.txt
+mask_rcnn.egg-info/top_level.txt

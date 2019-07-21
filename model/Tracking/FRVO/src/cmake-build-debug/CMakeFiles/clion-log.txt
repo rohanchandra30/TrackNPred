@@ -1,0 +1,4 @@
+/home/uttaran/Codes/clion-2018.2.5/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/uttaran/Codes/Gamma/DensePeds/FRVO Motion Model/FRVO modification/common/FRVO/src"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/uttaran/Codes/Gamma/DensePeds/FRVO Motion Model/FRVO modification/common/FRVO/src/cmake-build-debug
