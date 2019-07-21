@@ -16,6 +16,9 @@ resources.tar
 ./draw_traj(temp)/
 .vscode
 *.ui
+./model/Detection/Mask/build/*
 ./model/Detection/Mask/build/
 ./model/Detection/Mask/dist
+./model/Detection/Mask/dist/*
 ./model/Detection/Mask/dist_rcnn.egg-info
+./model/Detection/Mask/dist_rcnn.egg-info/*
