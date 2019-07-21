@@ -206,9 +206,40 @@ class TrackNPredView(object):
         self.label_18.setFont(font)
         self.label_18.setObjectName("label_18")
         self.verticalLayout_5.addWidget(self.label_18)
-        self.modelLoc = QtWidgets.QLineEdit(self.prediction_box1)
+
+        # self.prediction_box1 = QtWidgets.QGroupBox(self.frame)
+        # self.prediction_box1.setGeometry(QtCore.QRect(0, 30, 231, 134))
+        # self.prediction_box1.setMinimumSize(QtCore.QSize(0, 0))
+        # self.prediction_box1.setTitle("")
+        # self.prediction_box1.setCheckable(False)
+        # self.prediction_box1.setObjectName("prediction_box1")
+        # self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.prediction_box1)
+        # self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.modelLoc = QtWidgets.QComboBox(self.prediction_box1)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.modelLoc.setFont(font)
         self.modelLoc.setObjectName("modelLoc")
+
+        # n_models = len(os.listdir("resources/trained_models"))
+
+        for model in os.listdir("resources/trained_models"):
+            self.modelLoc.addItem(os.path.join("resources", model))
+
         self.verticalLayout_5.addWidget(self.modelLoc)
+
+
+        # self.label_18 = QtWidgets.QLabel(self.prediction_box1)
+        # font = QtGui.QFont()
+        # font.setPointSize(12)
+        # self.label_18.setFont(font)
+        # self.label_18.setObjectName("label_18")
+        # self.verticalLayout_5.addWidget(self.label_18)
+
+        # self.modelLoc = QtWidgets.QLineEdit(self.prediction_box1)
+        # self.modelLoc.setObjectName("modelLoc")
+        self.verticalLayout_5.addWidget(self.modelLoc)
+
         self.maneuvers = QtWidgets.QCheckBox(self.prediction_box1)
         self.maneuvers.setObjectName("maneuvers")
         self.verticalLayout_5.addWidget(self.maneuvers)
@@ -518,7 +549,7 @@ class TrackNPredView(object):
         self.predictionSelect.setItemText(2, _translate("Dialog", "Social-LSTM"))
         self.predictionSelect.setItemText(3, _translate("Dialog", "Social Conv"))
         self.label_18.setText(_translate("Dialog", "Model location"))
-        self.modelLoc.setText(_translate("Dialog", "model/Prediction/trained_models"))
+        # self.modelLoc.setText(_translate("Dialog", "model/Prediction/trained_models"))
         self.maneuvers.setText(_translate("Dialog", "Maneuvers"))
         self.label_2.setText(_translate("Dialog", "Trajectory"))
         self.label_10.setText(_translate("Dialog", "Prediction"))

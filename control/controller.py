@@ -66,7 +66,7 @@ class Controller:
         args["lr"] = float(self.view.learningRate.text())
         args["cuda"] = bool(self.view.cuda.isChecked())
         args["maneuvers"] = bool(self.view.maneuvers.isChecked())
-        args["modelLoc"] = str(self.view.modelLoc.text())
+        args["modelLoc"] = str(self.view.modelLoc.currentText())
         args["pretrain_loss"] = str(self.view.pretrainLoss.currentText())
         args['train_loss'] = str(self.view.trainLoss.currentText())
         args["display"] = bool(self.view.display.isChecked())

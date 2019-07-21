@@ -4,6 +4,7 @@ import time
 import math
 import torch
 from ignite.contrib.handlers import ProgressBar
+import os
 import datetime
 
 class TrajPredEngine:
@@ -47,7 +48,9 @@ class TrajPredEngine:
         raise NotImplementedError
 
     def saveModel(self, engine):
-        name = "model/Prediction/trained_models/{}".format(self.args['name'])
+        save_dir = "model/Prediction/trained_models/"
+        os.makedirs(save_dir, exist_ok=True)
+        name = os.path.join(save_dir, self.args['name'])
         torch.save(self.net.state_dict(), name)
         print("Model saved {}.".format(name))
 
