@@ -1,14 +1,14 @@
 import cv2
 import datetime as dt
 import matplotlib.image as mpimg
-import mrcnn.model as modellib
+import model.Detection.Mask.mrcnn.model as modellib
 import numpy as np
 import os
 import sys
 import time
 
-from mrcnn import utils
-from mrcnn import visualize
+from model.Detection.Mask.mrcnn import utils
+from model.Detection.Mask.mrcnn import visualize
 from resources.mask_resources.coco import coco
 
 dataset = 'TRAF_Dataset'

@@ -2483,6 +2483,7 @@ class MaskRCNN():
         # Validate image sizes
         # All images in a batch MUST be of the same size
         image_shape = molded_images[0].shape
+        # print(image_shape)
         for g in molded_images[1:]:
             assert g.shape == image_shape,\
                 "After resizing, all images must have the same size. Check IMAGE_RESIZE_MODE and image sizes."

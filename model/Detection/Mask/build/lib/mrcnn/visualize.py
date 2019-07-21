@@ -7,7 +7,7 @@ Licensed under the MIT License (see LICENSE for details)
 Written by Waleed Abdulla
 """
 
-import os
+import os,time
 import sys
 import logging
 import random
@@ -70,7 +70,7 @@ def random_colors(N, bright=True):
     return colors
 
 
-def apply_mask(image, mask, color, alpha=0.5):
+def apply_mask(image, mask, color, alpha=0.3):
     """Apply the given mask to the image.
     """
     for c in range(3):
@@ -81,11 +81,15 @@ def apply_mask(image, mask, color, alpha=0.5):
     return image
 
 
-def display_instances(image, boxes, masks, class_ids, class_names,
+# def display_instances(save_file_name, image, boxes, masks, class_ids, class_names,
+#                       scores=None, title="",
+#                       figsize=(16, 16), ax=None,
+#                       show_mask=True, show_bbox=True, captions=None):
+def display_instances(save_file_name, image, mrcnn_results, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
-                      show_mask=True, show_bbox=True,
-                      colors=None, captions=None):
+                      show_mask=True, show_bbox=True, captions=None):
+
     """
     boxes: [num_instance, (y1, x1, y2, x2, class_id)] in image coordinates.
     masks: [height, width, num_instances]
@@ -98,12 +102,32 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     colors: (optional) An array or colors to use with each object
     captions: (optional) A list of strings to use as captions for each object
     """
+
+    rois = mrcnn_results['rois']
+    masks = mrcnn_results['masks']
+    class_ids = mrcnn_results['class_ids']
     # Number of instances
-    N = boxes.shape[0]
-    if not N:
-        print("\n*** No instances to display *** \n")
-    else:
-        assert boxes.shape[0] == masks.shape[-1] == class_ids.shape[0]
+    # Number of instances
+
+    # if not os.path.isfile(os.path.join('/home/rohan/scratch1/Research/', dataset, video_file, 'gt', 'drawtraj.txt')):
+    #     convert(hypo_file, video_file, ID)
+
+
+    # tracks = np.loadtxt("/home/rohan/scratch1/Research/Aniket_Dataset/NPLACE-1/results/hypotheses.txt", delimiter=',')
+    # color_vec = ['']*tracks.shape[0]
+    # frame_indices = tracks[:, 0].astype(np.int) if tracks.ndim > 1 else tracks[0]
+    # id_indices = tracks[:, 1].astype(np.int) if tracks.ndim > 1 else tracks[1]
+    # mask = frame_indices == count
+    # rows = tracks[mask]
+    # id_in_rows = id_indices[mask]
+    # N = rows.shape[0]
+    L = rois.shape[0]
+    M = masks.shape[2]
+    # print(count)
+    # if not N:
+    #     print("\n*** No instances to display *** \n")
+    # else:
+    #     assert boxes.shape[0] == masks.shape[-1] == class_ids.shape[0]
 
     # If no axis is passed, create one and automatically call show()
     auto_show = False
@@ -112,7 +136,8 @@ def display_instances(image, boxes, masks, class_ids, class_names,
         auto_show = True
 
     # Generate random colors
-    colors = colors or random_colors(N)
+    colors = random_colors(M)
+
 
     # Show area outside image boundaries.
     height, width = image.shape[:2]
@@ -122,52 +147,97 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     ax.set_title(title)
 
     masked_image = image.astype(np.uint32).copy()
-    for i in range(N):
-        color = colors[i]
 
+    for i in range(L):
+    # for i in range(4):
+    #     color = colorset[i]
         # Bounding box
-        if not np.any(boxes[i]):
+        if not np.any(rois[i]):
+        # if not np.any(rows[i]):
             # Skip this instance. Has no bbox. Likely lost in image cropping.
             continue
-        y1, x1, y2, x2 = boxes[i]
+        y1, x1, y2, x2 = rois[i]
+        # x1 = rows[i][2]
+        # x2 = rows[i][2]+rows[i][4]
+        # y1 = rows[i][3]
+        # y2 = rows[i][3] + rows[i][5]
         if show_bbox:
-            p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=2,
-                                alpha=0.7, linestyle="dashed",
-                                edgecolor=color, facecolor='none')
-            ax.add_patch(p)
+            # p = patches.Circle(((x2+x1)/2,(y1+y2)/2), radius = 6, fill=True, color='k')
+            # ax.add_patch(p)
+            q = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=1, alpha=1, linestyle="solid", edgecolor=colors[i], facecolor='none')
+            # ax.add_patch(q)
 
         # Label
-        if not captions:
-            class_id = class_ids[i]
-            score = scores[i] if scores is not None else None
-            label = class_names[class_id]
-            x = random.randint(x1, (x1 + x2) // 2)
-            caption = "{} {:.3f}".format(label, score) if score else label
-        else:
-            caption = captions[i]
-        ax.text(x1, y1 + 8, caption,
-                color='w', size=11, backgroundcolor="none")
+        # if not captions:
+        #     class_id = class_ids[i]
+        #     score = scores[i] if scores is not None else None
+        #     label = class_names[class_id]
+        #     x = random.randint(x1, (x1 + x2) // 2)
+        #     caption = "{} {:.3f}".format(label, score) if score else label
+        # else:
+        #     caption = captions[i]
+        # ax.text(x1, y1 + 8, caption,color='w', size=11, backgroundcolor="none")
 
         # Mask
-        mask = masks[:, :, i]
+    n = L-M
+    arrow_head_boxes = rois[n:,:]
+    for j in range(M):
+        # print(masks[:,:,39])
+        y1, x1, y2, x2 = arrow_head_boxes[j]
+        color = colors[j]
+        mask = masks[:, :, j]
         if show_mask:
             masked_image = apply_mask(masked_image, mask, color)
 
-        # Mask Polygon
+        # # Mask Polygon
         # Pad to ensure proper polygons for masks that touch image edges.
-        padded_mask = np.zeros(
-            (mask.shape[0] + 2, mask.shape[1] + 2), dtype=np.uint8)
+        padded_mask = np.zeros((mask.shape[0] + 2, mask.shape[1] + 2), dtype=np.uint8)
         padded_mask[1:-1, 1:-1] = mask
+        # print(padded_mask)
         contours = find_contours(padded_mask, 0.5)
         for verts in contours:
             # Subtract the padding and flip (y, x) to (x, y)
             verts = np.fliplr(verts) - 1
-            p = Polygon(verts, facecolor="none", edgecolor=color)
+            p = Polygon(verts, facecolor="None", edgecolor=color)
             ax.add_patch(p)
-    ax.imshow(masked_image.astype(np.uint8))
-    if auto_show:
-        plt.show()
+            # q = patches.Circle(((x2+x1)/2,(y1+y2)/2), radius = 9, fill=True, color='k')
+            # ax.add_patch(q)
+    ax.imshow(masked_image.astype(np.uint8),alpha=1)
+    plt.savefig(save_file_name)
+    plt.close()
+    # plt.savefig('/home/rohan/scratch1/Research/MOT_Dataset/MOT16/test/MOT16-03/video/image%d.jpg' %(count))
+    # plt.savefig('/home/rohan/scratch1/Research/Hajj_Dataset/HAJJ-1/video/image%d.jpg' %(count))
+    # plt.savefig('/home/rohan/Pictures/rvo.jpg')
+    # if auto_show:
+    #     plt.show()
 
+def make_rows(traj_nparray, ID):
+    for i, id in enumerate(range(int(min(ID)), int(max(ID)) + 1)):
+        mask = ID == id
+        rows.append(traj_nparray[mask])
+    return rows
+
+# First make a array of ID's with each Id having a list of bbox points according to frame numbers
+def make_new_tracks(tracks):
+
+    frame_indices = tracks[:, 0].astype(np.int) if tracks.ndim > 1 else tracks[0]
+    id_indices = tracks[:, 1].astype(np.int) if tracks.ndim > 1 else tracks[1]
+    arr = np.array([max(id_indices)-min(id_indices)+1,max(frame_indices)-min(frame_indices)+1])
+
+
+    for frame_num in range(min(frame_indices), max(frame_indices) + 1):
+        mask = frame_indices == frame_num
+        rows = tracks[mask]
+        id_in_rows = id_indices[mask]
+        for row_ind, arr_id_ind in enumerate(id_in_rows,1):
+            arr[arr_id_ind][frame_num] = [rows[row_ind][2], rows[row_ind][2]+rows[row_ind][4], rows[row_ind][3], rows[row_ind][3] + rows[row_ind][5]]
+    print(arr, arr.shape)
+    return new_tracks
+
+
+def point_in_poly(point, verts):
+    from shapely.geometry import Point
+    from shapely.geometry.polygon import Polygon
 
 def display_differences(image,
                         gt_box, gt_class_id, gt_mask,
