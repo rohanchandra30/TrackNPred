@@ -2,6 +2,7 @@
 import requests
 import shutil
 import subprocess
+import os
 
 def download_file_from_google_drive(id, destination):
     URL = "https://docs.google.com/uc?export=download"
@@ -50,10 +51,16 @@ def download_legacy(id, destination):
 
 
 if __name__ == "__main__":
-    file_id = '1csMJENZJ2b3DTAvXjGGORchwMKERh7AO'
-    destination = 'resources.tar'	
-    download_file_from_google_drive(file_id, destination)
-    subprocess.call(["tar", "-xvf", "resources.tar"])
-#    shutil.move("resources", "model/resourcestest")
-    legacy_id = "1d93YeN_hNSukbXs_JuXMdrgTOJKaIVaj"
-    # download_legacy(legacy_id, 'legacy.tar')
+    if(not os.path.isdir("resources")):
+        file_id = '1g317QRhokEa9EyVEktjB6kXls6SM4f-E'
+        destination = 'resources.tar'	
+        download_file_from_google_drive(file_id, destination)
+        subprocess.call(["tar", "-xvf", "resources.tar"])
+        subprocess.call(["rm", "resources.tar"])
+    else:
+        print("resources folder already exists. Not downloading")
+
+    print("installing mask r-cnn")
+    # subprocess.call(["pip3", "install", "-r", "model/Detection/Mask/requirements.txt"])
+    os.chdir("model/Detection/Mask")
+    subprocess.call(["python3", "setup.py", "install"])
