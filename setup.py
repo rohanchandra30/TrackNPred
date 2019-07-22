@@ -61,6 +61,6 @@ if __name__ == "__main__":
         print("resources folder already exists. Not downloading")
 
     print("installing mask r-cnn")
-    subprocess.call(["pip3", "install", "-r", "model/Detection/Mask/requirements.txt"])
+    subprocess.call(["pip", "install", "-r", "model/Detection/Mask/requirements.txt"])
     os.chdir("model/Detection/Mask")
     subprocess.call(["python3", "setup.py", "install"])
