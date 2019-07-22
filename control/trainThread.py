@@ -60,7 +60,7 @@ class TrainThread(QThread):
             self.signalCanvas("\n[INFO] Using MASK for detection")
 
         for i, data_folder in enumerate(os.listdir(dataDir)):
-            self.signalBotLabel("Detection: {}/{} folders".format(i + 1, nfolders))
+            self.signalBotLabel("Detection: {}/{} folders".format(max(i, 1), nfolders))
             self.signalBotBar(int(i + 1 / nfolders * 100))
 
             input_dir = os.path.join(dataDir, data_folder)
@@ -84,7 +84,7 @@ class TrainThread(QThread):
         nfolders = len(os.listdir(dataDir))
 
         for i, data_folder in enumerate(os.listdir(dataDir)):
-            self.signalBotLabel("Tracking: {}/{} folders".format(i + 1, nfolders))
+            self.signalBotLabel("Tracking: {}/{} folders".format(max(i, 1), nfolders))
             self.signalBotBar(int(i + 1 / nfolders * 100))
             self.model.tracking(dataDir, data_folder, thread=self)
 
@@ -93,7 +93,7 @@ class TrainThread(QThread):
     def format(self, args):
         self.signalCanvas("\n[INFO] Formatting hypothesis files...")
         dataDir = args["dir"]
-        nfolders = len(os.listdir(dataDir))
+        # nfolders = len(os.listdir(dataDir))
         file_names = []
         for i, data_folder in enumerate(os.listdir(dataDir)):
             self.model.format(dataDir, data_folder, self)

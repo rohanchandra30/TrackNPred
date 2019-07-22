@@ -184,7 +184,6 @@ class TrajPredEngine:
     def zeroValLoss(self, engine):
         self.metrics["Avg val loss"] = 0
 
-
     def makeTrainer(self):
         self.trainer = Engine(self.train_batch)
         self.evaluator = Engine(self.eval_batch)
@@ -218,6 +217,5 @@ class TrajPredEngine:
 
 
     def eval(self):
-        pass
 
 

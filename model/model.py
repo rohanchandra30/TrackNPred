@@ -234,7 +234,7 @@ class TnpModel:
         for i, batch in enumerate(testSet):
             net.train_flag = False
 
-            _, _, _, _, _, _, _, fut, op_mask = batch
+            _, _, _, _, fut, op_mask = batch
             fut_pred = self.netPred(batch)
             if self.cuda:
                 fut = fut.cuda()
@@ -258,7 +258,6 @@ class TnpModel:
                     self.thread.signalError("[Error] Unrecognized train loss, using NLL by default")
                     l = maskedNLL(fut_pred, fut, op_mask)
 
-            print(l)
             # if self.args['nll_only']:
             #     l = maskedNLL(fut_pred, fut, op_mask)
             # else:
