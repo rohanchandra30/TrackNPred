@@ -1,11 +1,9 @@
 from ignite.engine import Engine, Events
 from model.Prediction.utils import lstToCuda,maskedNLL,maskedMSE,maskedNLLTest, maskedMSETest
-import time
 import math
 import torch
 from ignite.contrib.handlers import ProgressBar
 import os
-import datetime
 
 class TrajPredEngine:
 
@@ -55,7 +53,7 @@ class TrajPredEngine:
         raise NotImplementedError
 
     def saveModel(self, engine):
-        save_dir = "model/Prediction/trained_models/"
+        save_dir = "resources/trained_models/"
         os.makedirs(save_dir, exist_ok=True)
         name = os.path.join(save_dir, self.args['name'])
         torch.save(self.net.state_dict(), name)
@@ -107,13 +105,11 @@ class TrajPredEngine:
         # Track average train loss:
         self.avg_trn_loss += l.item()
         self.metrics["Avg train loss"] += l.item() / 100.0
-        print(self.metrics["Avg train loss"])
 
         return l.item()
 
     def eval_a_batch(self, engine, batch):
         self.net.train_flag = False
-        print(batch)
 
         epoch = engine.state.epoch
 

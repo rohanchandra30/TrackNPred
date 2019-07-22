@@ -16,6 +16,7 @@ from model.Prediction.utils import ngsimDataset
 from model.Prediction.traphicEngine import TraphicEngine
 from model.Prediction.socialEngine import SocialEngine
 from torch.utils.data import DataLoader
+import datetime
 
 # from model.Detection.Yolo.yolo_gpu import detect
 # from sganArgs import args as sgan_args
@@ -102,7 +103,9 @@ class TnpModel:
         args['ours'] = False
         args['nll_only'] = True
         args["learning_rate"] = viewArgs["lr"]
-        args['name'] = "{}_model.tar".format(viewArgs["predAlgo"])
+        
+        currentDT = datetime.datetime.now()
+        args['name'] = "{}_{}_model.tar".format(viewArgs["predAlgo"], currentDT.strftime("%Y_%m_%d_%H_%M"))
         args["pretrain_loss"] = viewArgs['pretrain_loss']
         args['train_loss'] = viewArgs['train_loss']
 
