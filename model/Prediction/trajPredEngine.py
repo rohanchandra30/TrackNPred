@@ -188,8 +188,8 @@ class TrajPredEngine:
         self.trainer = Engine(self.train_batch)
         self.evaluator = Engine(self.eval_batch)
 
-        pbar = ProgressBar(persist=True, postfix=self.metrics)
-        pbar.attach(self.trainer)
+        # pbar = ProgressBar(persist=True, postfix=self.metrics)
+        # pbar.attach(self.trainer)
 
         ## attach hooks 
         # evaluate after every batch
@@ -203,12 +203,8 @@ class TrajPredEngine:
     def start(self):
         max_epochs =self.args["pretrainEpochs"] + self.args["trainEpochs"]
         if self.thread:
-            if not self.eval_only:
-                self.thread.signalBotLabel("0/{} Epochs".format(max_epochs))
-                self.thread.signalTopLabel("0/{} Iterations".format(self.n_iterations))
-            else:
-                self.thread.signalBotLabel("Evaluating...")
-                self.thread.signalTopLabel("Evaluating...")
+            self.thread.signalBotLabel("0/{} Epochs".format(max_epochs))
+            self.thread.signalTopLabel("0/{} Iterations".format(self.n_iterations))
 
         if not self.eval_only:
             self.trainer.run(self.train_loader, max_epochs=max_epochs)
@@ -217,5 +213,10 @@ class TrajPredEngine:
 
 
     def eval(self):
+        if self.thread:
+            self.thread.signalTopLabel("Evaluating")
+
+        evaluator = Engine(self.eval_batch)
+
 
 
