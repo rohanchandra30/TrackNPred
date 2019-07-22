@@ -215,3 +215,9 @@ class TrajPredEngine:
             self.trainer.run(self.train_loader, max_epochs=max_epochs)
         else:
             self.trainer.run(self.train_loader, max_epochs=1)
+
+
+    def eval(self):
+        pass
+
+

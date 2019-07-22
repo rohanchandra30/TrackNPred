@@ -224,7 +224,7 @@ class TrackNPredView(object):
         # n_models = len(os.listdir("resources/trained_models"))
 
         for model in os.listdir("resources/trained_models"):
-            self.modelLoc.addItem(os.path.join("resources", model))
+            self.modelLoc.addItem(os.path.join("resources/trained_models", model))
 
         self.verticalLayout_5.addWidget(self.modelLoc)
 

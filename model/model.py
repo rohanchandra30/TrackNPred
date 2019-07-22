@@ -192,7 +192,7 @@ class TnpModel:
             net = highwayNet(args)
 
 
-        d = os.path.join(args['modelLoc'], args['name'])
+        d = os.path.join(args['modelLoc'])
         thread.signalCanvas(d)
 
         if os.path.exists(d):
@@ -231,13 +231,54 @@ class TnpModel:
         valSet = ngsimDataset('model/Prediction/data/TRAF/ValSet.npy')
         valDataloader = DataLoader(valSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=valSet.collate_fn)
 
-        if predAlgo == "Traphic":
-            engine = TraphicEngine(net, optim, trDataloader, testDataloader, args, thread)
-        elif predAlgo == "Social Conv":
-            engine = SocialEngine(net, optim, trDataloader, testDataloader, args, thread)
-        else:
-            if thread:
-                thread.signalCanvas("\n[INFO]: NOT YET IMPLEMENTED")
-        if thread:
-            thread.signalCanvas("\n[INFO]: *** Evaluating Prediction Model ***")
-        engine.start()
+        for i, batch in enumerate(testSet):
+            net.train_flag = False
+
+            _, _, _, _, _, _, _, fut, op_mask = batch
+            fut_pred = self.netPred(batch)
+            if self.cuda:
+                fut = fut.cuda()
+                op_mask = op_mask.cuda()
+
+            # Forward pass
+            if epoch < self.pretrainEpochs:
+                if self.args["pretrain_loss"] == 'MSE':
+                    l = maskedMSE(fut_pred, fut, op_mask)
+                elif self.args['pretrain_loss'] == 'NLL':
+                    l = maskedNLL(fut_pred, fut, op_mask)
+                else:
+                    self.thread.signalError("[Error] Unrecognized pretrain loss, using MSE by default")
+                    l = maskedMSE(fut_pred, fut, op_mask)
+            else:
+                if self.args["train_loss"] == 'MSE':
+                    l = maskedMSE(fut_pred, fut, op_mask)
+                elif self.args['train_loss'] == 'NLL':
+                    l = maskedNLL(fut_pred, fut, op_mask)
+                else:
+                    self.thread.signalError("[Error] Unrecognized train loss, using NLL by default")
+                    l = maskedNLL(fut_pred, fut, op_mask)
+
+            print(l)
+            # if self.args['nll_only']:
+            #     l = maskedNLL(fut_pred, fut, op_mask)
+            # else:
+            #     if epoch_num < pretrainEpochs:
+            #         l = maskedMSE(fut_pred, fut, op_mask)
+            #     else:
+            #         l = maskedNLL(fut_pred, fut, op_mask)
+
+            # self.avg_val_loss += l.item()
+            # self.metrics["Avg val loss"] += l.item()/ (self.val_batch_count * 100.0)
+            # self.val_batch_count += 1
+
+            # return fut_pred, fut
+        # if predAlgo == "Traphic":
+        #     engine = TraphicEngine(net, optim, trDataloader, testDataloader, args, thread)
+        # elif predAlgo == "Social Conv":
+        #     engine = SocialEngine(net, optim, trDataloader, testDataloader, args, thread)
+        # else:
+        #     if thread:
+        #         thread.signalCanvas("\n[INFO]: NOT YET IMPLEMENTED")
+        # if thread:
+        #     thread.signalCanvas("\n[INFO]: *** Evaluating Prediction Model ***")
+        # engine.start()
