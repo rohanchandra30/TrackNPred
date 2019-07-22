@@ -1,5 +1,5 @@
 from ignite.engine import Engine, Events
-from model.Prediction.utils import lstToCuda,maskedNLL,maskedMSE,maskedNLLTest
+from model.Prediction.utils import lstToCuda,maskedNLL,maskedMSE,maskedNLLTest, maskedMSETest
 import time
 import math
 import torch
@@ -44,6 +44,12 @@ class TrajPredEngine:
 
         self.save_name = args['name']
 
+        # testing stuff wow need 2 clean this so bad
+
+        self.lossVals = torch.zeros(self.args['out_length']).cuda() if self.cuda else torch.zeros(self.args['out_length'])
+        self.counts = torch.zeros(self.args['out_length']).cuda() if self.cuda else torch.zeros(self.args['out_length'])
+
+
     def netPred(self, batch):
         raise NotImplementedError
 
@@ -54,7 +60,7 @@ class TrajPredEngine:
         torch.save(self.net.state_dict(), name)
         print("Model saved {}.".format(name))
 
-    def train_batch(self, engine, batch):
+    def train_a_batch(self, engine, batch):
 
         self.net.train_flag = True
         epoch = engine.state.epoch
@@ -104,9 +110,9 @@ class TrajPredEngine:
 
         return l.item()
 
-    def eval_batch(self, engine, batch):
+    def eval_a_batch(self, engine, batch):
         self.net.train_flag = False
-
+        print(batch)
 
         epoch = engine.state.epoch
 
@@ -185,15 +191,13 @@ class TrajPredEngine:
         self.metrics["Avg val loss"] = 0
 
     def makeTrainer(self):
-        self.trainer = Engine(self.train_batch)
-        self.evaluator = Engine(self.eval_batch)
+        self.trainer = Engine(self.train_a_batch)
+        self.evaluator = Engine(self.eval_a_batch)
 
         # pbar = ProgressBar(persist=True, postfix=self.metrics)
         # pbar.attach(self.trainer)
 
         ## attach hooks 
-        # evaluate after every batch
-        # if not self.eval_only:
         self.trainer.add_event_handler(Events.EPOCH_COMPLETED, self.validate)
         self.trainer.add_event_handler(Events.ITERATION_COMPLETED, self.zeroMetrics)
         self.trainer.add_event_handler(Events.COMPLETED, self.saveModel)
@@ -212,11 +216,60 @@ class TrajPredEngine:
             self.trainer.run(self.train_loader, max_epochs=1)
 
 
-    def eval(self):
+    def test_a_batch(self, engine, batch):
+        _, _, _, _, _, _, _, fut, op_mask = batch
+
+        # Initialize Variables
+        if self.cuda:
+            fut = fut.cuda()
+            op_mask = op_mask.cuda()
+
+
+        if self.args["train_loss"] == 'NLL':
+            # Forward pass
+            if self.args['use_maneuvers']:
+                fut_pred, lat_pred, lon_pred = self.netPred(batch)
+                l,c = maskedNLLTest(fut_pred, lat_pred, lon_pred, fut, op_mask)
+            else:
+                fut_pred = self.netPred(batch)
+                l, c = maskedNLLTest(fut_pred, 0, 0, fut, op_mask,use_maneuvers=False)
+        else:
+            # Forward pass
+            if self.args['use_maneuvers']:
+                fut_pred, lat_pred, lon_pred = self.netPred(batch)
+                fut_pred_max = torch.zeros_like(fut_pred[0])
+                for k in range(lat_pred.shape[0]):
+                    lat_man = torch.argmax(lat_pred[k, :]).detach()
+                    lon_man = torch.argmax(lon_pred[k, :]).detach()
+                    indx = lon_man*3 + lat_man
+                    fut_pred_max[:,k,:] = fut_pred[indx][:,k,:]
+                l, c = maskedMSETest(fut_pred_max, fut, op_mask)
+            else:
+                fut_pred = self.netPred(batch)
+                l, c = maskedMSETest(fut_pred, fut, op_mask)
+
         if self.thread:
-            self.thread.signalTopLabel("Evaluating")
-
-        evaluator = Engine(self.eval_batch)
-
+            self.thread.signalBotBar((engine.state.iteration / self.test_batch_size) * 100)
+            self.thread.signalTopBar((engine.state.iteration / self.test_batch_size) * 100)
 
 
+        self.lossVals +=l.detach()
+        self.counts += c.detach()
+
+
+
+    def eval(self, test_loader):
+        if self.thread:
+            self.thread.signalTopLabel("Testing")
+
+        self.test_batch_size = len(test_loader)
+        tester = Engine(self.test_a_batch)
+
+        tester.run(test_loader)
+
+        if(self.thread):
+            if(self.args["train_loss"]) == "NLL" :
+                self.thread.signalCanvas("TEST LOSS: " + str(self.lossVals / self.counts))
+            else:
+                rmse = torch.pow(self.lossVals / self.counts, 0.5) * .3048 # converting from feet to meters
+                self.thread.signalCanvas("TEST LOSS: " + str(rmse))
