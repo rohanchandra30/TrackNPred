@@ -48,6 +48,7 @@ class TrajPredEngine:
 
         self.lossVals = torch.zeros(self.args['out_length']).cuda() if self.cuda else torch.zeros(self.args['out_length'])
         self.counts = torch.zeros(self.args['out_length']).cuda() if self.cuda else torch.zeros(self.args['out_length'])
+        self.lastTestLoss = 0
 
 
     def netPred(self, batch):
@@ -254,6 +255,7 @@ class TrajPredEngine:
 
 
         self.lossVals +=l.detach()
+        self.lastTestLoss = l.detach()
         self.counts += c.detach()
 
 
@@ -269,12 +271,13 @@ class TrajPredEngine:
 
         if(self.thread):
             if(self.args["train_loss"]) == "NLL" :
-                nll_losses = self.lossVals / self.counts
-                self.thread.signalCanvas("TEST LOSSES: " + str(nll_losses))
-                self.thread.signalCanvas("Avg Test loss: " + str(nll_losses.mean().item()))
+                nll_loss = self.lossVals / self.counts
+                self.thread.signalCanvas("Last Test loss: " + str(self.lastTestLoss.mean().item()))
+                self.thread.signalCanvas("Avg Test loss: " + str(nll_loss.mean().item()))
             else:
                 rmse = torch.pow(self.lossVals / self.counts, 0.5) * .3048 # converting from feet to meters
-                self.thread.signalCanvas("TEST LOSSES: " + str(rmse))
+                self.lastTestLoss = torch.pow(self.lastTestLoss, 0.5) * .3048
+                self.thread.signalCanvas("Last Test loss: " + str(self.lastTestLoss.mean().item()))
                 self.thread.signalCanvas("Avg Test loss: " + str(rmse.mean().item()))
 
             
