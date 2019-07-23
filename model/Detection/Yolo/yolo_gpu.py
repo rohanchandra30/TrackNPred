@@ -54,11 +54,18 @@ def detect(inputDir, inputFile, framesDir, outputTxt, outputFolder, conf, nms, c
 
     classes = load_classes("./resources/yolo-coco/coco.names")  # Extracts class labels from file
 
-    if(thread):
-        thread.signalCanvas("Extracting frames from {}".format(inputFile))
-    create_frames(inputDir, inputFile, framesDir)
 
     framesPath = os.path.join( inputDir, framesDir)
+    n_frames = len(os.listdir(framesPath))
+    print(framesPath, n_frames)
+    if n_frames < 500:
+        if(thread):
+            thread.signalCanvas("Extracting frames from {}".format(inputFile))
+        create_frames(inputDir, inputFile, framesDir)
+    else:
+        if(thread):
+            thread.signalCanvas("Found {} frames in  {}. Delete this folder to re-extract frames".format(n_frames, framesPath))
+
 
     dataloader = DataLoader(
         ImageFolder(framesPath, img_size=IMAGE_SIZE),
