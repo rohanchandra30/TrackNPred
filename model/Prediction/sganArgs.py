@@ -1,7 +1,7 @@
 import os
 import argparse
-from sgan.utils import int_tuple, bool_flag, get_total_norm
-from sgan.utils import relative_to_abs, get_dset_path
+from model.Prediction.sgan.utils import int_tuple, bool_flag, get_total_norm
+from model.Prediction.sgan.utils import relative_to_abs, get_dset_path
 
 args = {}
 

@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 
-TRAINED_MODELS_PATH = "resources/trained_models"
+TRAINED_MODELS_PATH = "./resources/trained_models"
 
 class TrackNPredView(object):
 
@@ -223,8 +223,11 @@ class TrackNPredView(object):
 
         # n_models = len(os.listdir("resources/trained_models"))
 
-        for model in os.listdir("resources/trained_models"):
-            self.modelLoc.addItem(os.path.join("resources/trained_models", model))
+        if not os.path.exists(TRAINED_MODELS_PATH):
+            os.makedirs(TRAINED_MODELS_PATH)
+
+        for model in os.listdir(TRAINED_MODELS_PATH):
+            self.modelLoc.addItem(os.path.join(TRAINED_MODELS_PATH, model))
 
         self.verticalLayout_5.addWidget(self.modelLoc)
 

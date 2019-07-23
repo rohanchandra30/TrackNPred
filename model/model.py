@@ -17,6 +17,8 @@ from model.Prediction.traphicEngine import TraphicEngine
 from model.Prediction.socialEngine import SocialEngine
 from torch.utils.data import DataLoader
 import datetime
+from model.Prediction.sganTrain import main as sganTrain
+from model.Prediction.sganArgs import args as sgan_args
 
 # from model.Detection.Yolo.yolo_gpu import detect
 # from sganArgs import args as sgan_args
@@ -29,6 +31,7 @@ HYP_FNAME = "hypotheses.txt"
 FORMATTED_HYP_FNAME = "formatted_hypo.txt"
 HOMO_FORMAT = "TRAF{}_H.txt"
 PRED_INPUT_FORMAT = "{}.npy"
+SGAN_INPUT_FORMAT = "{}.txt"
 # DATA_LOC = 
 
 class TnpModel:
@@ -71,9 +74,10 @@ class TnpModel:
         formatted_hypo = os.path.join(data_folder, FORMATTED_HYP_FNAME)
         homo_file = os.path.join(data_folder, HOMO_FORMAT.format(dsetId))
         pred_input = os.path.join(data_folder, PRED_INPUT_FORMAT.format(fileName))
+        sgan_input = os.path.join(data_folder, SGAN_INPUT_FORMAT.format(fileName))
 
         formatFile(hyp_file, dsetId, formatted_hypo) 
-        import_data(formatted_hypo, homo_file, pred_input)
+        import_data(formatted_hypo, homo_file, pred_input, sgan_input)
 
     def getPredArgs(self, viewArgs):
         ## Arguments
@@ -118,14 +122,16 @@ class TnpModel:
 
         args = self.getPredArgs(viewArgs)
         args['eval'] = False
-        args['cuda'] = False
+        # args['cuda'] = False
         predAlgo = viewArgs["predAlgo"]
         optimSelection = viewArgs["optim"]
 
         if predAlgo == "Traphic":
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
-            print(predAlgo)
+
+            sganTrain(sgan_args, thread)
+            return 
         elif predAlgo == "Social-LSTM":
             print(predAlgo)
         elif predAlgo == "Social Conv":
@@ -185,7 +191,8 @@ class TnpModel:
                 thread.signalCanvas("\n[INFO]: Using Traphic for the saved model")
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
-            print(predAlgo)
+            sganMain(args, thread)
+            return 
         elif predAlgo == "Social-LSTM":
             print(predAlgo)
         elif predAlgo == "Social Conv":

@@ -11,13 +11,13 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from sgan.data.loader import data_loader
-from sgan.losses import gan_g_loss, gan_d_loss, l2_loss
-from sgan.losses import displacement_error, final_displacement_error
+from model.Prediction.sgan.data.loader import data_loader
+from model.Prediction.sgan.losses import gan_g_loss, gan_d_loss, l2_loss
+from model.Prediction.sgan.losses import displacement_error, final_displacement_error
 
-from sgan.models import TrajectoryGenerator, TrajectoryDiscriminator
-from sgan.utils import int_tuple, bool_flag, get_total_norm
-from sgan.utils import relative_to_abs, get_dset_path
+from model.Prediction.sgan.models import TrajectoryGenerator, TrajectoryDiscriminator
+from model.Prediction.sgan.utils import int_tuple, bool_flag, get_total_norm
+from model.Prediction.sgan.utils import relative_to_abs, get_dset_path
 
 torch.backends.cudnn.benchmark = True
 
@@ -41,7 +41,7 @@ def get_dtypes(args):
     return long_dtype, float_dtype
 
 
-def main(args):
+def main(args, thread=None):
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_num
     print("Dataset: ", args.dataset_name)
     train_path = get_dset_path(args.dataset_name, 'train')

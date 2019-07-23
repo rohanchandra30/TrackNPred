@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 from collections import defaultdict
 
 
-def import_data(file_dir, homography_dir, out_dir, toFeet=False):
+def import_data(file_dir, homography_dir, out_dir, sgan_dir, toFeet=False):
 
-    tranform(file_dir, homography_dir, out_dir, toFeet)
+    tranform(file_dir, homography_dir, out_dir, sgan_dir, toFeet)
 # Sicne the model uses 3 secs of trajectory history for prediction,
 # the initial 3 seconds of each trajectory is not used for training/testing
 
@@ -73,6 +73,22 @@ def merge_n_split(file_names, out_format):
         print("Dataset {} finsihed.".format(d))
 
 
+
+
+    f = open(sgan_dir, 'w')
+    for line in traj_train:
+        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+    f.close()
+
+    f = open(sgan_dir, 'w')
+    for line in traj_val:
+        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+    f.close()
+
+    f = open(sgan_dir, 'w')
+    for line in traj_test:
+        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+    f.close()
 
     np.save(out_format.format("TrainSet"), np.array([traj_train, track_train]))
     np.save(out_format.format("ValSet"), np.array([traj_val, track_val])) 
@@ -141,7 +157,7 @@ def multiply_homography(h, pt_in):
     # print(pt)
     return pt
 
-def tranform(file_dir, homography_dir, out_dir, toFeet):
+def tranform(file_dir, homography_dir, out_dir, sgan_dir, toFeet):
     
     read = np.loadtxt(file_dir, delimiter=',')
     traj = np.zeros((np.shape(read)[0], 47))
@@ -309,6 +325,13 @@ def tranform(file_dir, homography_dir, out_dir, toFeet):
 
     # print(traj)
     # print(track)
+
+
+    f = open(sgan_dir, 'w')
+    for line in traj:
+        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+    f.close()
+
 
     np.save(out_dir, np.array([traj, track]))
     print("Finish importing and saving")
