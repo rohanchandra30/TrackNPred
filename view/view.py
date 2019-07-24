@@ -198,7 +198,7 @@ class TrackNPredView(object):
         self.predictionSelect.addItem("")
         self.predictionSelect.addItem("")
         self.predictionSelect.addItem("")
-        self.predictionSelect.addItem("")
+        # self.predictionSelect.addItem("")
         self.verticalLayout_5.addWidget(self.predictionSelect)
         self.label_18 = QtWidgets.QLabel(self.prediction_box1)
         font = QtGui.QFont()

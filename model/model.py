@@ -192,7 +192,7 @@ class TnpModel:
             thread.signalCanvas("\n[INFO] Evaluation started...")
         args = self.getPredArgs(viewArgs)
         args['eval'] = True
-        # args['cuda'] = False
+        args['cuda'] = False
 
         predAlgo = viewArgs["predAlgo"]
         optimSelection = viewArgs["optim"]
