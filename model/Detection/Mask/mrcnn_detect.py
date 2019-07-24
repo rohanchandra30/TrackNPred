@@ -38,7 +38,8 @@ def find_labels(_class_names, items):
     return [_class_names.index(i) for _, i in enumerate(items)]
 
 
-def save_detections(_fidx, frame, mrcnn_results, _detection_file, det_frames_dir, _labels_to_save=None, thread=None):
+def save_detections(_fidx, frame, mrcnn_results, _detection_file, inputDir, det_frames_dir, _labels_to_save=None, thread=None):
+    print(_detection_file)
     file_id = open(_detection_file, 'a+')
     class_ids = mrcnn_results['class_ids']
     if _labels_to_save is None:
@@ -58,13 +59,15 @@ def save_detections(_fidx, frame, mrcnn_results, _detection_file, det_frames_dir
         if np.any(seg[:2] >= seg[2:]):
             continue
         delimiter = ','
-        line = (str(_fidx), "-1", str(seg[1]), str(seg[0]), str(seg[3] - seg[1]), str(seg[2] - seg[0]), str(scores[i]), "-1", "-1", "-1", str(class_ids[i]))
+        # line = (str(_fidx), "-1", str(seg[1]), str(seg[0]), str(seg[3] - seg[1]), str(seg[2] - seg[0]), str(scores[i]), "-1", "-1", "-1", str(class_ids[i]))
+        file_id.write("{},-1,{},{},{},{},{},-1,-1,-1,{}\n".format(str(_fidx), str(seg[1]), str(seg[0]), str(seg[3] - seg[1]), str(seg[2] - seg[0]), str(scores[i]), str(class_ids[i])))
+
 
         print("det dir: ", det_frames_dir)
 
-        det_frame_path = os.path.join(det_frames_dir, '{:06}.jpg'.format(_fidx))
-
-        cv2.imwrite(det_frame_path, cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        det_frame_path = os.path.join(inputDir, det_frames_dir, '{:06}.jpg'.format(_fidx))
+        print(det_frame_path)
+        cv2.imwrite(det_frame_path, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
         if thread:
             thread.signalImg(det_frame_path)
@@ -143,7 +146,9 @@ def detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, 
     os.makedirs(framesDir, exist_ok=True)
 
     # det,txt path
-    detection_file = outputPath
+    detection_file = os.path.join(inputDir, outputPath)
+    if os.path.exists(detection_file):
+    	os.remove(detection_file)
 
     # directory for mask rcnn detection frames
     os.makedirs(outputFolder, exist_ok=True)
@@ -178,7 +183,7 @@ def detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, 
         
         # Save detection results to det.txt file
         if labels_to_save is None:
-            save_detections(fidx, curr_frame, results, detection_file)
+            save_detections(fidx, curr_frame, results, detection_file, inputDir, outputFolder, labels_to_save, thead)
             
             time_per_frame.append(time.time() - start_time_each_frame)
             mean_time_per_frame = np.mean(np.array(time_per_frame))
@@ -188,7 +193,7 @@ def detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, 
             masks = results['masks']
             labels = results['class_ids']
         else:
-            save_detections(fidx, curr_frame, results, detection_file, outputFolder,  labels_to_save, thread)
+            save_detections(fidx, curr_frame, results, detection_file, inputDir, outputFolder, labels_to_save, thread)
             
             # Create mask to remove detections whose labels are not in labels_to_save
             results_labels_mask = [False] * len(results['class_ids'])
