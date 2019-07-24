@@ -35,7 +35,7 @@ TrackNPred currently supports the following:
 3. **Trajectory Prediction**
 <ul>
 <li> <a href="https://arxiv.org/abs/1803.10892"> Social-GAN </a> </li>
-<li> <a href="https://arxiv.org/abs/1805.06771" >Convolutional Social LSTM </a> </li>
+<li> <a href="https://arxiv.org/abs/1805.06771" >Convolutional Social LSTM </a>(Not Implemented yet) </li>
 <li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> TraPHic </a></li>
 
 ## Dependencies
