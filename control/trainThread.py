@@ -100,7 +100,7 @@ class TrainThread(QThread):
             loc = os.path.join(dataDir, data_folder)
             file_names.append(os.path.join(loc, data_folder + '.npy'))
 
-        merge_n_split(file_names, "model/Prediction/data/TRAF/{}.npy")
+        merge_n_split(file_names, "model/Prediction/data/TRAF/{}")
 
         self.signalCanvas("\n[INFO] Done Formatting hypothesis files...")
 

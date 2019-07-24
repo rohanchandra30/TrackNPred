@@ -2,7 +2,7 @@ import re
 import numpy as np
 from sklearn.model_selection import train_test_split
 from collections import defaultdict
-
+import os
 
 def import_data(file_dir, homography_dir, out_dir, sgan_dir, toFeet=False):
 
@@ -74,25 +74,33 @@ def merge_n_split(file_names, out_format):
 
 
 
+    if not os.path.exists(out_format.format("train")):
+        os.makedirs(out_format.format("train"))
 
-    f = open(sgan_dir, 'w')
+    f = open(out_format.format("train/TrainSet.txt"), 'w')
     for line in traj_train:
         f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
     f.close()
 
-    f = open(sgan_dir, 'w')
+    if not os.path.exists(out_format.format("val")):
+        os.makedirs(out_format.format("val"))
+
+    f = open(out_format.format("val/ValSet.txt"), 'w')
     for line in traj_val:
         f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
     f.close()
 
-    f = open(sgan_dir, 'w')
+    if not os.path.exists(out_format.format("test")):
+        os.makedirs(out_format.format("test"))    
+
+    f = open(out_format.format("test/TestSet.txt"), 'w')
     for line in traj_test:
         f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
     f.close()
 
-    np.save(out_format.format("TrainSet"), np.array([traj_train, track_train]))
-    np.save(out_format.format("ValSet"), np.array([traj_val, track_val])) 
-    np.save(out_format.format("TestSet"), np.array([traj_test, track_test]))
+    np.save(out_format.format("TrainSet.npy"), np.array([traj_train, track_train]))
+    np.save(out_format.format("ValSet.npy"), np.array([traj_val, track_val])) 
+    np.save(out_format.format("TestSet.npy"), np.array([traj_test, track_test]))
     print("Training file saved and ready.")
 
     # print(traj_train)
