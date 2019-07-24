@@ -158,6 +158,8 @@ def main(args, thread=None):
             'best_t_nl': None,
         }
     t0 = None
+    print(args.num_iterations)
+
     while t < args.num_iterations:
         gc.collect()
         d_steps_left = args.d_steps
@@ -286,11 +288,11 @@ def main(args, thread=None):
                 torch.save(small_checkpoint, checkpoint_path)
                 logger.info('Done.')
 
-            t += 1
-            d_steps_left = args.d_steps
-            g_steps_left = args.g_steps
-            if t >= args.num_iterations:
-                break
+        t += 1
+        d_steps_left = args.d_steps
+        g_steps_left = args.g_steps
+        if t >= args.num_iterations:
+            break
 
 
 def discriminator_step(

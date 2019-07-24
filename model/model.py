@@ -130,7 +130,11 @@ class TnpModel:
         if predAlgo == "Traphic":
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
-
+            sgan_argsnum_epochs = int(args["pretrainEpochs"]) + int(args["trainEpochs"])
+            sgan_args.batch_size = args["batch_size"]
+            sgan_args.dropout = args['dropout_prob']
+            sgan_args.g_learning_rate = args["learning_rate"]
+            sgan_args.g_learning_rate = args["learning_rate"]
             sganTrain(sgan_args, thread)
             return 
         elif predAlgo == "Social-LSTM":

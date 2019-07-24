@@ -79,7 +79,8 @@ def merge_n_split(file_names, out_format):
 
     f = open(out_format.format("train/TrainSet.txt"), 'w')
     for line in traj_train:
-        f.write("{}\t{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4], int(line[0])))
+        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+        # f.write("{}\t{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4], int(line[0])))
     f.close()
 
     if not os.path.exists(out_format.format("val")):
@@ -87,7 +88,8 @@ def merge_n_split(file_names, out_format):
 
     f = open(out_format.format("val/ValSet.txt"), 'w')
     for line in traj_val:
-        f.write("{}\t{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4], int(line[0])))
+        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+        # f.write("{}\t{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4], int(line[0])))
     f.close()
 
     if not os.path.exists(out_format.format("test")):
@@ -95,7 +97,8 @@ def merge_n_split(file_names, out_format):
 
     f = open(out_format.format("test/TestSet.txt"), 'w')
     for line in traj_test:
-        f.write("{}\t{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4], int(line[0])))
+        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+        # f.write("{}\t{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4], int(line[0])))
     f.close()
 
     np.save(out_format.format("TrainSet.npy"), np.array([traj_train, track_train]))
@@ -335,10 +338,10 @@ def tranform(file_dir, homography_dir, out_dir, sgan_dir, toFeet):
     # print(track)
 
 
-    f = open(sgan_dir, 'w')
-    for line in traj:
-        f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
-    f.close()
+    # f = open(sgan_dir, 'w')
+    # for line in traj:
+    #     f.write("{}\t{}\t{}\t{}\n".format(int(line[2]), int(line[1]), line[3], line[4]))
+    # f.close()
 
 
     np.save(out_dir, np.array([traj, track]))
