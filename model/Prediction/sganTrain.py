@@ -46,7 +46,7 @@ def main(args, thread=None):
     print("Dataset: ", args.dataset_name)
     train_path = get_dset_path(args.dataset_name, 'train')
     val_path = get_dset_path(args.dataset_name, 'val')
-
+    print(train_path)
     long_dtype, float_dtype = get_dtypes(args)
 
     logger.info("Initializing train dataset")
@@ -243,12 +243,12 @@ def main(args, thread=None):
         checkpoint['losses_ts'].append(t)
 
 
-        # for k, v in sorted(metrics_train.items()):
-        #     logger.info('  [train] {}: {:.3f}'.format(k, v))
-        #     checkpoint['metrics_train'][k].append(v)
-        # for k, v in sorted(metrics_val.items()):
-        #     logger.info('  [val] {}: {:.3f}'.format(k, v))
-        #     checkpoint['metrics_val'][k].append(v)
+        for k, v in sorted(metrics_train.items()):
+            # logger.info('  [train] {}: {:.3f}'.format(k, v))
+            checkpoint['metrics_train'][k].append(v)
+        for k, v in sorted(metrics_val.items()):
+            # logger.info('  [val] {}: {:.3f}'.format(k, v))
+            checkpoint['metrics_val'][k].append(v)
 
         if thread:
             thread.signalBotLabel("{}/{} Epochs".format(epoch, args.num_epochs))
@@ -257,7 +257,7 @@ def main(args, thread=None):
             thread.signalCanvas("\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Train g_loss: {:.3f}  Val g_loss: {:.3f}".format(metrics_train["g_l2_loss_abs"], metrics_val["g_l2_loss_abs"]))
 
         # Maybe save a checkpoint
-        if t > 0 and t % args.checkpoint_every == 0:
+        if t > 0 and t % args.checkpoint_every == 0 or i == args.num_epochs-1:
             checkpoint['counters']['t'] = t
             checkpoint['counters']['epoch'] = epoch
             checkpoint['sample_ts'].append(t)
@@ -314,6 +314,55 @@ def main(args, thread=None):
         g_steps_left = args.g_steps
 
 
+    # checkpoint['counters']['t'] = t
+    # checkpoint['counters']['epoch'] = epoch
+    # checkpoint['sample_ts'].append(t)
+
+
+    # min_ade = min(checkpoint['metrics_val']['ade'])
+    # min_ade_nl = min(checkpoint['metrics_val']['ade_nl'])
+
+    # if metrics_val['ade'] == min_ade:
+    #     logger.info('New low for avg_disp_error')
+    #     checkpoint['best_t'] = t
+    #     checkpoint['g_best_state'] = generator.state_dict()
+    #     checkpoint['d_best_state'] = discriminator.state_dict()
+
+    # if metrics_val['ade_nl'] == min_ade_nl:
+    #     logger.info('New low for avg_disp_error_nl')
+    #     checkpoint['best_t_nl'] = t
+    #     checkpoint['g_best_nl_state'] = generator.state_dict()
+    #     checkpoint['d_best_nl_state'] = discriminator.state_dict()
+
+    # # Save another checkpoint with model weights and
+    # # optimizer state
+    # checkpoint['g_state'] = generator.state_dict()
+    # checkpoint['g_optim_state'] = optimizer_g.state_dict()
+    # checkpoint['d_state'] = discriminator.state_dict()
+    # checkpoint['d_optim_state'] = optimizer_d.state_dict()
+    # checkpoint_path = os.path.join(
+    #     args.output_dir, '%s_with_model.pt' % args.checkpoint_name
+    # )
+    # logger.info('Saving checkpoint to {}'.format(checkpoint_path))
+    # torch.save(checkpoint, checkpoint_path)
+    # logger.info('Done.')
+
+    # # Save a checkpoint with no model weights by making a shallow
+    # # copy of the checkpoint excluding some items
+    # checkpoint_path = os.path.join(
+    #     args.output_dir, '%s_no_model.pt' % args.checkpoint_name)
+    # logger.info('Saving checkpoint to {}'.format(checkpoint_path))
+    # key_blacklist = [
+    #     'g_state', 'd_state', 'g_best_state', 'g_best_nl_state',
+    #     'g_optim_state', 'd_optim_state', 'd_best_state',
+    #     'd_best_nl_state'
+    # ]
+    # small_checkpoint = {}
+    # for k, v in checkpoint.items():
+    #     if k not in key_blacklist:
+    #         small_checkpoint[k] = v
+    # torch.save(small_checkpoint, checkpoint_path)
+    # logger.info('Done.')
 
 def discriminator_step(
     args, batch, generator, discriminator, d_loss_fn, optimizer_d

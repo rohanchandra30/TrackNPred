@@ -60,7 +60,7 @@ parser.add_argument('--l2_loss_weight', default=0, type=float)
 parser.add_argument('--best_k', default=1, type=int)
 
 # Output
-parser.add_argument('--output_dir', default=os.getcwd())
+parser.add_argument('--output_dir', default=os.path.join(os.getcwd(),"resources/trained_models"))
 parser.add_argument('--print_every', default=1, type=int)
 parser.add_argument('--checkpoint_every', default=20, type=int)
 parser.add_argument('--checkpoint_name', default='checkpoint')
@@ -72,6 +72,15 @@ parser.add_argument('--num_samples_check', default=5000, type=int)
 parser.add_argument('--use_gpu', default=1, type=int)
 parser.add_argument('--timing', default=0, type=int)
 parser.add_argument('--gpu_num', default="0", type=str)
+
+
+
+# Eval
+parser.add_argument('--model_path', default=os.path.join(os.getcwd(),"resources/trained_models/checkpoint_with_model.pt"))
+parser.add_argument('--num_samples', default=20, type=int)
+parser.add_argument('--dset_type', default='test', type=str)
+
+
 
 args = parser.parse_args()
 

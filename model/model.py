@@ -18,6 +18,7 @@ from model.Prediction.socialEngine import SocialEngine
 from torch.utils.data import DataLoader
 import datetime
 from model.Prediction.sganTrain import main as sganTrain
+from model.Prediction.sganEval import main as sganEval
 from model.Prediction.sganArgs import args as sgan_args
 
 # from model.Detection.Yolo.yolo_gpu import detect
@@ -201,7 +202,7 @@ class TnpModel:
                 thread.signalCanvas("\n[INFO]: Using Traphic for the saved model")
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
-            sganMain(args, thread)
+            sganEval(sgan_args, thread)
             return 
         elif predAlgo == "Social-LSTM":
             print(predAlgo)
