@@ -19,3 +19,4 @@ resources.tar
 model/Detection/Mask/build/
 model/Detection/Mask/dist/
 model/Detection/Mask/mask_rcnn.egg-info/
+conda_env_folder
