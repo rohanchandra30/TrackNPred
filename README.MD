@@ -49,6 +49,7 @@ Support Python 3.5 and above. For a list of dependencies see requirements.txt
 
 ## Dataset
 * Currently we only accept mp4 file. 
+* The mp4 file must consist of a string and a number after that string.
 * We need to create a folder that has the same name as the video file and put the video in that folder. 
 * The datafolder needs to exist in the Direcotry specified in the GUI/commandline.<br>
 	Example: if the data directory is `resources/data/TRAF`, and the video name is `DEMO.mp4`, then the location of the video should be `resources/data/TRAF/DEMO/DEMO.mp4`.
