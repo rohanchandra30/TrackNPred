@@ -128,13 +128,18 @@ class TnpModel:
         optimSelection = viewArgs["optim"]
 
         if predAlgo == "Traphic":
+            if thread:
+                thread.signalCanvas("\n[INFO]: Using TRAFPHIC model")
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
-            sgan_argsnum_epochs = int(args["pretrainEpochs"]) + int(args["trainEpochs"])
+            sgan_args.num_epochs = int(args["pretrainEpochs"]) + int(args["trainEpochs"])
             sgan_args.batch_size = args["batch_size"]
             sgan_args.dropout = args['dropout_prob']
             sgan_args.g_learning_rate = args["learning_rate"]
             sgan_args.g_learning_rate = args["learning_rate"]
+            if thread:
+                thread.signalCanvas("\n[INFO]: Using Sgan model")
+                thread.signalCanvas("\n[INFO]: *** Training Prediction Model ***")
             sganTrain(sgan_args, thread)
             return 
         elif predAlgo == "Social-LSTM":
