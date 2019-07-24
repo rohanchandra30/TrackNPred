@@ -67,6 +67,7 @@ class TnpModel:
         # subprocess.call(["python", DENS_PEDS, "--video_folder", data_folder])
 
     def format(self, dataDir, data_folder, thread=None):
+        thread.signalCanvas(data_folder)
         dsetId = re.search(r'\d+', data_folder).group()
         fileName = data_folder
         data_folder = os.path.join(dataDir, data_folder)
@@ -122,7 +123,7 @@ class TnpModel:
 
         args = self.getPredArgs(viewArgs)
         args['eval'] = False
-        # args['cuda'] = False
+        args['cuda'] = False
         predAlgo = viewArgs["predAlgo"]
         optimSelection = viewArgs["optim"]
 

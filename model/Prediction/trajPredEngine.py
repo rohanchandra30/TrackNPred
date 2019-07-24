@@ -67,7 +67,7 @@ class TrajPredEngine:
         _, _, _, _, _, _, _, fut, op_mask = batch
 
         fut_pred = self.netPred(batch)
-
+        
         if self.cuda:
             fut = fut.cuda()
             op_mask = op_mask.cuda()
