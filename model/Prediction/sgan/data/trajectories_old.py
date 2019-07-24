@@ -102,16 +102,8 @@ class TrajectoryDataset(Dataset):
         seq_list_rel = []
         loss_mask_list = []
         non_linear_ped = []
-
-        path = all_files[0]
-
-        all_data = read_file(path, delim)
-        print(all_data)
-        d_set = np.unique(all_data[:, 4]).tolist()
-
-        for d in d_set:
-            data = all_data[d == all_data[:, 4], :]
-            data = data[:,0:4]
+        for path in all_files:
+            data = read_file(path, delim)
             frames = np.unique(data[:, 0]).tolist()
             frame_data = []
             for frame in frames:
@@ -163,12 +155,11 @@ class TrajectoryDataset(Dataset):
                     seq_list_rel.append(curr_seq_rel[:num_peds_considered])
 
         self.num_seq = len(seq_list)
-        # seq_list = np.concatenate(seq_list, axis=0)
-        # seq_list_rel = np.concatenate(seq_list_rel, axis=0)
-        # loss_mask_list = np.concatenate(loss_mask_list, axis=0)
+        seq_list = np.concatenate(seq_list, axis=0)
+        seq_list_rel = np.concatenate(seq_list_rel, axis=0)
+        loss_mask_list = np.concatenate(loss_mask_list, axis=0)
         non_linear_ped = np.asarray(non_linear_ped)
-        print(np.shape(seq_list[0]))
-        print(self.obs_len)
+
         # Convert numpy -> Torch Tensor
         self.obs_traj = torch.from_numpy(
             seq_list[:, :, :self.obs_len]).type(torch.float)

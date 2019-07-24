@@ -61,7 +61,7 @@ parser.add_argument('--best_k', default=1, type=int)
 
 # Output
 parser.add_argument('--output_dir', default=os.getcwd())
-parser.add_argument('--print_every', default=5, type=int)
+parser.add_argument('--print_every', default=1, type=int)
 parser.add_argument('--checkpoint_every', default=100, type=int)
 parser.add_argument('--checkpoint_name', default='checkpoint')
 parser.add_argument('--checkpoint_start_from', default=None)

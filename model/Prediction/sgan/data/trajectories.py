@@ -102,8 +102,15 @@ class TrajectoryDataset(Dataset):
         seq_list_rel = []
         loss_mask_list = []
         non_linear_ped = []
-        for path in all_files:
-            data = read_file(path, delim)
+
+        path = all_files[0]
+
+        all_data = read_file(path, delim)
+        d_set = np.unique(all_data[:, 4]).tolist()
+
+        for d in d_set:
+            data = all_data[d == all_data[:, 4], :]
+            data = data[:,0:4]
             frames = np.unique(data[:, 0]).tolist()
             frame_data = []
             for frame in frames:
