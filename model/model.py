@@ -193,7 +193,6 @@ class TnpModel:
         args = self.getPredArgs(viewArgs)
         args['eval'] = True
         args['cuda'] = True
-
         predAlgo = viewArgs["predAlgo"]
         optimSelection = viewArgs["optim"]
 
