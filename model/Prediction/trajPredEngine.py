@@ -128,7 +128,8 @@ class TrajPredEngine:
             elif self.args['pretrain_loss'] == 'NLL':
                 l = maskedNLL(fut_pred, fut, op_mask)
             else:
-                self.thread.signalError("[Error] Unrecognized pretrain loss, using MSE by default")
+                if(self.thread):
+                    self.thread.signalError("[Error] Unrecognized pretrain loss, using MSE by default")
                 l = maskedMSE(fut_pred, fut, op_mask)
         else:
             if self.args["train_loss"] == 'MSE':
