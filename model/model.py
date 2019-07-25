@@ -130,6 +130,7 @@ class TnpModel:
         if predAlgo == "Traphic":
             if thread:
                 thread.signalCanvas("\n[INFO]: Using TRAFPHIC model")
+            args["ours"] = True
             args['train_flag'] = True
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
