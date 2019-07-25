@@ -115,7 +115,9 @@ class TrajPredEngine:
         epoch = engine.state.epoch
 
         _, _, _, _, _, _, _, fut, op_mask = batch
+        print("got batch")
         fut_pred = self.netPred(batch)
+        print("eval forward pass finishes")
         if self.cuda:
             fut = fut.cuda()
             op_mask = op_mask.cuda()

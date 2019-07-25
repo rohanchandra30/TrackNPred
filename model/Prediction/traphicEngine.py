@@ -26,6 +26,7 @@ class TraphicEngine(TrajPredEngine):
             fut = fut.cuda()
             op_mask = op_mask.cuda()
 
+        print("traphic netpred: able to put evverything on cuda")
         fut_pred  = self.net(hist, upp_nbrs, nbrs, upp_mask, mask, lat_enc, lon_enc)
 
         return fut_pred
