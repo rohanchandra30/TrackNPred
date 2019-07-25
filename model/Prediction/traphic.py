@@ -141,9 +141,17 @@ class traphicNet(nn.Module):
         if self.ours:                                                         # Behavioral Modification 2: Adding Kinetic Flow Layer
             # bn2_size = upp_nbrs.shape[1]
             # self.bn2 = torch.nn.BatchNorm1d(bn2_size)
-            # print("YYASDYYFYFYFFY")
-            _, (upp_nbrs_enc,_) = self.enc_lstm(self.leaky_relu(torch.cat((self.ip_emb(upp_nbrs[0:15,:,:]),self.ip_emb_vel(upp_nbrs[16:,:,:])),0)))
-            # print("ASDFASLKDFJASLKFDJASKLDFJDF")
+            print("YYASDYYFYFYFFY")
+            print("upp_nbrs_a: ", upp_nbrs[0:15,:,:])
+            a = self.ip_emb(upp_nbrs[0:15,:,:])
+            print("a finished")
+            b = self.ip_emb_vel(upp_nbrs[16:,:,:])
+            print("upp_nbrs_b: ", upp_nbrs[16:,:,:])
+            print("b finished")
+            c = self.leaky_relu(torch.cat((a,b)))
+            print("c finished")
+            _, (upp_nbrs_enc,_) = self.enc_lstm(c)
+            print("ASDFASLKDFJASLKFDJASKLDFJDF")
             upp_nbrs_enc = self.dropout(upp_nbrs_enc)
             upp_nbrs_enc = upp_nbrs_enc.view(upp_nbrs_enc.shape[1], upp_nbrs_enc.shape[2])
 
