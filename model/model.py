@@ -123,6 +123,7 @@ class TnpModel:
             thread.signalCanvas("\n[INFO] Training started...")
 
         args = self.getPredArgs(viewArgs)
+        args['eval'] = False
         predAlgo = viewArgs["predAlgo"]
         optimSelection = viewArgs["optim"]
 
@@ -189,7 +190,7 @@ class TnpModel:
         if thread:
             thread.signalCanvas("\n[INFO] Evaluation started...")
         args = self.getPredArgs(viewArgs)
-
+        args['eval'] = True
         predAlgo = viewArgs["predAlgo"]
         optimSelection = viewArgs["optim"]
 
