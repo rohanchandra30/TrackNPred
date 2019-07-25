@@ -35,31 +35,38 @@ TrackNPred currently supports the following:
 3. **Trajectory Prediction**
 <ul>
 <li> <a href="https://arxiv.org/abs/1803.10892"> Social-GAN </a> </li>
-<li> <a href="https://arxiv.org/abs/1805.06771" >Convolutional Social LSTM </a>(Not Implemented yet) </li>
+<li> <a href="https://arxiv.org/abs/1805.06771" >Convolutional Social LSTM </a> </li>
 <li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> TraPHic </a></li>
 
 ## Dependencies
 Support Python 3.5 and above. For a list of dependencies see requirements.txt
 
 ### Installing Dependencies:
-1. With pip or pip3 (Preferred Python 3): <br>
-`pip3 install -r requirements.txt`
-2. Creating a conda environement<br>
-`conda create --name <env name e.g. tracknpred> --file requirements.txt`
+1. Create a conda environement<br>
+`conda create --name <env name e.g. tnp>`
+2. Source into the environment<br>
+`source activate <env name>`
+3. Install the set of requirements<br>
+`cd /path/to/requirements_file`
+`conda install --file requirements.txt`
+<br>
+Note that a lot of the requirements will not be installed by default. These need to installed manually as described later.
 
 ## Dataset
-* Currently we only accept mp4 file. 
+* Currently we only accept .mp4 file. 
 * The mp4 file must consist of a string and a number after that string.
 * We need to create a folder that has the same name as the video file and put the video in that folder. 
 * The datafolder needs to exist in the Direcotry specified in the GUI/commandline.<br>
-	Example: if the data directory is `resources/data/TRAF`, and the video name is `DEMO.mp4`, then the location of the video should be `resources/data/TRAF/DEMO/DEMO.mp4`.
+	Example: if the data directory is `resources/data/TRAF`, and the video name is `TRAFx.mp4`, then the location of the video should be `resources/data/TRAF/TRAFx/TRAFx.mp4`.
+* Note that currently, all the data has to reside inside `resources/data`.
 * All of the files generated will be in the corresponding datafolder.
 
 ## Usage
-1. Run `python setup.py` to get resources folder containing dataset and model weights
-2. Install Dependencies. See [Dependencies](##Dependencies)
-3. Prepare the dataset. See [Dataset](##Dataset) section for more details.
-4. We provide the options of GUI and command line control:<br>
+1. Inside the conda environment, run `python setup.py` to get resources folder containing dataset and model weights.
+2. Try to run `python main.py`. It will run into an error stating that a dependency was not found.
+3. Manually install the dependency with `conda install DEPENDENCY` (occasionally with `conda install -c CHANNEL DEPENDENCY`, where the channel name can be found by searching for the dependency file in the [Anaconda cloud](https://anaconda.org/)).
+4. Repeat Steps 2-3 till all dependency issues are resolved and the GUI opens.
+5. We provide the options of GUI and command line control:<br>
 	Examples:
 	* Run `python main.py` to get the GUI, which will give you the options you can choose.
 	* Run `python main_cmd.py -l 11 12` to run dataset TRAF11 and TRAF12 in command line.
