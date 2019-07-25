@@ -11,3 +11,4 @@ h5py
 imgaug
 IPython[all]
 pycocotools
+attrdict
