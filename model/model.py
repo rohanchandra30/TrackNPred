@@ -3,8 +3,6 @@ import os
 import subprocess
 import torch
 # from model.Detection.Yolo.yolo import detect
-from model.Detection.Yolo.yolo_gpu import detect as yolo_detect
-from model.Detection.Mask.mrcnn_detect import detect as mask_detect
 
 from model.Tracking.generate_features import gen_feats
 from model.Tracking.DensePeds import densepeds
@@ -41,6 +39,7 @@ class TnpModel:
         self.controller = controller
 
     def MASK_detect(self, inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, cuda, thread=None):
+        from model.Detection.Mask.mrcnn_detect import detect as mask_detect
         """
         for yolo tracking, takes inputDir (ex. "resources/data/TRAFxx")
         framesDIr (directory containing frames)
@@ -49,6 +48,7 @@ class TnpModel:
         mask_detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, cuda, thread)
 
     def YOLO_detect(self, inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, cuda, thread=None):
+        from model.Detection.Yolo.yolo_gpu import detect as yolo_detect
         """
         for yolo tracking, takes inputDir (ex. "resources/data/TRAFxx")
         framesDIr (directory containing frames)
@@ -215,7 +215,9 @@ class TnpModel:
 
         net.eval()
         d = os.path.join(args['modelLoc'])
-        thread.signalCanvas(d)
+
+        if thread:
+            thread.signalCanvas(d)
 
         if os.path.exists(d):
             net.load_state_dict(torch.load(d))

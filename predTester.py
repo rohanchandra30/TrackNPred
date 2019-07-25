@@ -19,7 +19,7 @@ args["trainEpochs"] = 10
 args["batch_size"] = 64
 args["dropout"] = .5
 args["optim"] = "Adam"
-args["lr"] = ".0001"
+args["lr"] = .0001
 args["cuda"] = False
 args["maneuvers"] = False
 args["modelLoc"] = "resources/trained_models/Traphic_model.tar"
@@ -28,3 +28,4 @@ args['train_loss'] = "MSE"
 
 model = TnpModel()
 
+model.train(args)

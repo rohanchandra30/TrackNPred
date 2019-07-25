@@ -78,7 +78,8 @@ class TrajPredEngine:
             elif self.args['pretrain_loss'] == 'NLL':
                 l = maskedNLL(fut_pred, fut, op_mask)
             else:
-                self.thread.signalError("[Error] Unrecognized pretrain loss, using MSE by default")
+                if(self.thread):
+                    self.thread.signalError("[Error] Unrecognized pretrain loss, using MSE by default")
                 l = maskedMSE(fut_pred, fut, op_mask)
         else:
             if self.args["train_loss"] == 'MSE':
@@ -191,8 +192,8 @@ class TrajPredEngine:
         self.trainer = Engine(self.train_a_batch)
         self.evaluator = Engine(self.eval_a_batch)
 
-        # pbar = ProgressBar(persist=True, postfix=self.metrics)
-        # pbar.attach(self.trainer)
+        pbar = ProgressBar(persist=True, postfix=self.metrics)
+        pbar.attach(self.trainer)
 
         ## attach hooks 
         self.trainer.add_event_handler(Events.EPOCH_COMPLETED, self.validate)
