@@ -157,6 +157,7 @@ class TrajPredEngine:
 
     def validate(self, engine):
         self.evaluator.run(self.val_loader)
+        print("validate finishes")
         max_epochs =self.args["pretrainEpochs"] + self.args["trainEpochs"]
         if self.thread:
             if not self.eval_only:
