@@ -1,6 +1,6 @@
 # TrackNPred: A Software Framework for End-to-End Trajectory Prediction
 
-This is the code base for our paper [RobustTP: End-to-End Trajectory Prediction for Heterogeneous
+This is the code base for our ACM CSCS2019 paper [RobustTP: End-to-End Trajectory Prediction for Heterogeneous
 Road-Agents in Dense Traffic with Noisy Sensor Inputs](https://arxiv.org/pdf/1907.08752.pdf). Please cite our work if you found this useful:
 
 ```
