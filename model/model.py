@@ -130,6 +130,7 @@ class TnpModel:
         if predAlgo == "Traphic":
             if thread:
                 thread.signalCanvas("\n[INFO]: Using TRAFPHIC model")
+            args['train_flag'] = True
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
             sgan_args.num_epochs = int(args["pretrainEpochs"]) + int(args["trainEpochs"])
@@ -197,6 +198,7 @@ class TnpModel:
         if predAlgo == "Traphic":
             if thread:
                 thread.signalCanvas("\n[INFO]: Using Traphic for the saved model")
+            args['train_flag'] = False
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
             sganEval(sgan_args, thread)
