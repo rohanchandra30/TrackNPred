@@ -37,7 +37,7 @@ SGAN_INPUT_FORMAT = "{}.txt"
 
 class TnpModel:
 
-    def __init__(self, controller):
+    def __init__(self, controller = None):
         self.controller = controller
 
     def MASK_detect(self, inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, cuda, thread=None):
@@ -169,6 +169,7 @@ class TnpModel:
         if thread:
             thread.signalCanvas("\n[INFO]: Loss: \n" + str(crossEnt))
 
+        # TODO Take out this hardcode
         trSet = ngsimDataset('model/Prediction/data/TRAF/TrainSet.npy')
         valSet = ngsimDataset('model/Prediction/data/TRAF/ValSet.npy')
 
@@ -243,6 +244,7 @@ class TnpModel:
             thread.signalCanvas("\n[INFO]: Loss: \n" + str(crossEnt))
 
 
+        # TODO: More hardcodes
         trSet = ngsimDataset('model/Prediction/data/TRAF/TrainSet.npy')
         trDataloader = DataLoader(trSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=trSet.collate_fn)
 
