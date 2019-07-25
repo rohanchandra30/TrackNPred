@@ -1,14 +1,16 @@
 # TrackNPred: A Software Framework for End-to-End Trajectory Prediction
 
-This is the code base for our paper (*Under Review*). Please consider citing our work if you found this useful:
+This is the code base for our paper [RobustTP: End-to-End Trajectory Prediction for Heterogeneous
+Road-Agents in Dense Traffic with Noisy Sensor Inputs](https://arxiv.org/pdf/1907.08752.pdf). Please cite our work if you found this useful:
 
 ```
-Example Bibtex (to be replaced):
-
-@misc{ Nobody06,
-       author = "Nobody Jr",
-       title = "My Article",
-       year = "2006" }
+@article{chandra2019robusttp,
+  title={RobustTP: End-to-End Trajectory Prediction for Heterogeneous
+Road-Agents in Dense Traffic with Noisy Sensor Inputs},
+  author={Chandra, Rohan and Bhattacharya, Uttaran and Roncal, Christian and Bera, Aniket and Manocha, Dinesh},
+  journal={arXiv preprint arXiv:1907.08752},
+  year={2019}
+}
 ```
 
 ## A Visualized Approach to Deep Learning
