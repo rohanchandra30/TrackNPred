@@ -47,7 +47,7 @@ Support Python 3.5 and above. For a list of dependencies see requirements.txt
 2. Source into the environment<br>
 `source activate <env name>`
 3. Install the set of requirements<br>
-`cd /path/to/requirements_file`
+`cd /path/to/requirements_file`<br>
 `conda install --file requirements.txt`
 <br>
 Note that a lot of the requirements will not be installed by default. These need to installed manually as described later.
