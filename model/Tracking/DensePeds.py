@@ -12,7 +12,7 @@ from model.Tracking.deep_sort import nn_matching
 from model.Tracking.deep_sort.detection import Detection
 from model.Tracking.deep_sort.tracker import Tracker
 
-dataset = 'resources/data/TRAF'
+# dataset = 'resources/data/TRAF'
 # dataset = './Tracking'
 # video_folder = ['TRAF11']
 track_dic = {}
@@ -285,18 +285,20 @@ def densepeds(dataDir, video_folder, display=True, thread=None):
     nn_budget = 100
     disp = display
 
-    for video_file in [video_folder]:
+    dataset = dataDir
 
-        track_dic = {}
+    # for video_file in [video_folder]:
 
-        start_time = time.time()
-        sequence_dir = dataset + '/'+ video_file
-        detection_file = dataset + '/'+  video_file + '/densep.npy'
-        output_file = dataset + '/' +  video_file + '/hypotheses.txt'
-        matlab_file= '../MOT_Dataset/' +'amilan-motchallenge-devkit-7dccd0fb3214/res/MOT16/data/rohan/train_87.5conf/' + video_file + '.txt'
+    track_dic = {}
 
-        run(sequence_dir, detection_file, output_file, matlab_file, min_conf, nms, min_det_ht, max_cos_dist, nn_budget, disp, thread)
-        print(video_file, (time.time() - start_time))
+    start_time = time.time()
+    sequence_dir = dataset + '/'+ video_folder
+    detection_file = dataset + '/'+  video_folder + '/densep.npy'
+    output_file = dataset + '/' +  video_folder + '/hypotheses.txt'
+    matlab_file= '../MOT_Dataset/' +'amilan-motchallenge-devkit-7dccd0fb3214/res/MOT16/data/rohan/train_87.5conf/' + video_folder + '.txt'
+
+    run(sequence_dir, detection_file, output_file, matlab_file, min_conf, nms, min_det_ht, max_cos_dist, nn_budget, disp, thread)
+    print(video_file, (time.time() - start_time))
 
 
 # if __name__ == "__main__":
