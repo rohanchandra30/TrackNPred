@@ -9,8 +9,7 @@ Please cite our work if you found this useful:
 
 ```
 @article{chandra2019robusttp,
-  title={RobustTP: End-to-End Trajectory Prediction for Heterogeneous
-Road-Agents in Dense Traffic with Noisy Sensor Inputs},
+  title={RobustTP: End-to-End Trajectory Prediction for Heterogeneous Road-Agents in Dense Traffic with Noisy Sensor Inputs},
   author={Chandra, Rohan and Bhattacharya, Uttaran and Roncal, Christian and Bera, Aniket and Manocha, Dinesh},
   journal={arXiv preprint arXiv:1907.08752},
   year={2019}
