@@ -71,7 +71,7 @@ def gather_sequence_info(sequence_dir, detection_file):
         min_frame_idx = min(image_filenames.keys())
         max_frame_idx = max(image_filenames.keys())
     else:
-        print(detections)
+        # print(detections)
         min_frame_idx = int(detections[:, 0].min())
         max_frame_idx = int(detections[:, 0].max())
 
@@ -234,7 +234,7 @@ def run(sequence_dir, detection_file, output_file,matlab_file, min_confidence,
 
     # Store results.
     f = open(output_file, 'w+')
-    print(results)
+    # print(results)
     for row in results:
         print('%d,%d,%.2f,%.2f,%.2f,%.2f,1,-1,-1,-1' % (
             row[0], row[1], row[2], row[3], row[4], row[5]),file=f)
@@ -291,6 +291,8 @@ def densepeds(dataDir, video_folder, display=True, thread=None):
 
     track_dic = {}
 
+    print('DATASET densepeds:', dataset)
+
     start_time = time.time()
     sequence_dir = dataset + '/'+ video_folder
     detection_file = dataset + '/'+  video_folder + '/densep.npy'
@@ -298,7 +300,7 @@ def densepeds(dataDir, video_folder, display=True, thread=None):
     matlab_file= '../MOT_Dataset/' +'amilan-motchallenge-devkit-7dccd0fb3214/res/MOT16/data/rohan/train_87.5conf/' + video_folder + '.txt'
 
     run(sequence_dir, detection_file, output_file, matlab_file, min_conf, nms, min_det_ht, max_cos_dist, nn_budget, disp, thread)
-    print(video_file, (time.time() - start_time))
+    print(video_folder, (time.time() - start_time))
 
 
 # if __name__ == "__main__":

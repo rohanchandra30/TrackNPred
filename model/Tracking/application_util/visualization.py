@@ -241,7 +241,7 @@ class Visualization(object):
     def draw_trackers(self, track_dic, idx,tracks):
         stride = 3
         self.viewer.thickness = 3
-        print (self.vid_name, idx)
+        # print (self.vid_name, idx)
         for track in tracks:
             track_dic.setdefault(track.track_id, []).append(list(list(track.to_tlwh().astype(np.int))))
             # if not track.is_confirmed() or track.time_since_update > 0:
@@ -290,7 +290,7 @@ class Visualization(object):
         stride = 1
         agent_count = 0
         self.viewer.thickness = 3
-        print (self.vid_name, idx)
+        # print (self.vid_name, idx)
         for track in tracks:
             track_dic.setdefault(track.track_id, []).append(list(list(track.to_tlwh().astype(np.int))))
             # if track_dic[track.track_id] is None:
