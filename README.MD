@@ -36,9 +36,16 @@ TrackNPred currently supports the following:
 
 3. **Trajectory Prediction**
 <ul>
-<li> <a href="https://arxiv.org/abs/1803.10892"> Social-GAN </a> </li>
-<li> <a href="https://arxiv.org/abs/1805.06771" >Convolutional Social LSTM </a> </li>
-<li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> TraPHic </a></li>
+<li> <a href="https://arxiv.org/abs/1803.10892"> <b>Social GAN: Socially Acceptable Trajectories with Generative Adversarial Networks,</b> CVPR'18  </a><br>
+Agrim Gupta, Justin Johnson, Fei-Fei Li, Silvio Savarese, Alexandre Alahi 
+</li>
+	
+<li> <a href="https://arxiv.org/abs/1805.06771" ><b>Convolutional Social Pooling for Vehicle Trajectory Prediction,</b> CVPRW'18</a> <br>
+Nachiket Deo and Mohan M. Trivedi
+</li>
+<li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> <b>TraPHic: Trajectory Prediction in Dense and Heterogeneous Traffic Using Weighted Interactions,</b> CVPR'19 </a><br>
+Rohan Chandra, Uttaran Bhattacharya, Aniket Bera, Dinesh Manocha 
+</li>
 
 ## Dependencies
 Support Python 3.5 and above. For a list of dependencies see requirements.txt
