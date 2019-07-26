@@ -1,7 +1,11 @@
 # TrackNPred: A Software Framework for End-to-End Trajectory Prediction
 
-This is the code base for our ACM CSCS 2019 paper [RobustTP: End-to-End Trajectory Prediction for Heterogeneous
-Road-Agents in Dense Traffic with Noisy Sensor Inputs](https://arxiv.org/pdf/1907.08752.pdf). Please cite our work if you found this useful:
+This is the code base for our ACM CSCS 2019 paper,
+
+[**RobustTP: End-to-End Trajectory Prediction for Heterogeneous Road-Agents in Dense Traffic with Noisy Sensor Inputs**](https://arxiv.org/pdf/1907.08752.pdf). <br>
+Rohan Chandra, Uttaran Bhattacharya, Christian Roncal, Aniket Bera, Dinesh Manocha
+
+Please cite our work if you found this useful:
 
 ```
 @article{chandra2019robusttp,
@@ -34,7 +38,7 @@ TrackNPred currently supports the following:
 
 <img src="img/trackedTRAFCSCS19.png">
 
-3. **Trajectory Prediction**
+2. **Trajectory Prediction**
 <ul>
 <li> <a href="https://arxiv.org/abs/1803.10892"> <b>Social GAN: Socially Acceptable Trajectories with Generative Adversarial Networks,</b> CVPR'18  </a><br>
 Agrim Gupta, Justin Johnson, Fei-Fei Li, Silvio Savarese, Alexandre Alahi 
@@ -98,3 +102,7 @@ We also evaluate RobustTP using trajectory histories that are computed by two de
 Using Mask R-CNN            |  Using YOLO
 :-------------------------:|:-------------------------:
 ![](img/rmse.png)  |  ![](img/rmse_yolo.png)
+
+### TrackNPred is developed and maintained by-
+1. [**Tianrui Guan**](https://www.linkedin.com/in/tianrui-guan-b76733ba/detail/contact-info/).
+2. [**Christian Roncal**](https://github.com/christian-rncl).
