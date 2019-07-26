@@ -113,7 +113,7 @@ class TnpModel:
         args['num_lat_classes'] = 3
         args['num_lon_classes'] = 2
         args['use_maneuvers'] = viewArgs["maneuvers"]
-        args['ours'] = False
+        args['ours'] = True
         args['nll_only'] = True
         args["learning_rate"] = viewArgs["lr"]
         
