@@ -183,7 +183,7 @@ def detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, 
             thread.signalTopLabel(tlbl)
             thread.signalTopBar(max( (((fidx + 1) / num_frames) * 100), 1))
 
-        curr_frame = np.array(mpimg.imread(os.path.join(framesDir, each_frame)))
+        curr_frame = np.array(mpimg.imread(os.path.join(framesPath, each_frame)))
 
         start_time_each_frame = time.time()
         
