@@ -25,6 +25,7 @@ args["maneuvers"] = False
 args["modelLoc"] = "resources/trained_models/Traphic_model.tar"
 args["pretrain_loss"] = ''
 args['train_loss'] = "MSE"
+args["dir"] = 'TRAF'
 
 model = TnpModel()
 
