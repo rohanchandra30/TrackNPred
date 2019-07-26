@@ -113,7 +113,7 @@ class TnpModel:
         args['num_lat_classes'] = 3
         args['num_lon_classes'] = 2
         args['use_maneuvers'] = viewArgs["maneuvers"]
-        args['ours'] = True
+        args['ours'] = False
         args['nll_only'] = True
         args["learning_rate"] = viewArgs["lr"]
         
@@ -190,6 +190,7 @@ class TnpModel:
         valDataloader = DataLoader(valSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=valSet.collate_fn)
 
         if predAlgo == "Traphic":
+            args["ours"] = True
             engine = TraphicEngine(net, optim, trDataloader, valDataloader, args, thread)
         elif predAlgo == "Social Conv":
             engine = SocialEngine(net, optim, trDataloader, valDataloader, args, thread)
@@ -213,6 +214,7 @@ class TnpModel:
             if thread:
                 thread.signalCanvas("\n[INFO]: Using Traphic for the saved model")
             args['train_flag'] = False
+            args["ours"] = True
             net = traphicNet(args)
         elif predAlgo == "Social GAN":
             sganEval(sgan_args, thread)
@@ -276,6 +278,7 @@ class TnpModel:
         valDataloader = DataLoader(valSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=valSet.collate_fn)
 
         if predAlgo == "Traphic":
+            args["ours"] = True
             engine = TraphicEngine(net, optim, trDataloader, testDataloader, args, thread)
         elif predAlgo == "Social Conv":
             engine = SocialEngine(net, optim, trDataloader, testDataloader, args, thread)
