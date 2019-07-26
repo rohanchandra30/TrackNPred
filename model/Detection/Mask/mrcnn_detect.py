@@ -142,17 +142,19 @@ def detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, 
     video_path = os.path.join(inputDir, inputFile)
 
     # directory for normal frames
-    framesDir = os.path.join(inputDir, framesDir)
-    os.makedirs(framesDir, exist_ok=True)
+    # framesDir = os.path.join(inputDir, framesDir)
+    # os.makedirs(framesDir, exist_ok=True)
 
     # det,txt path
     detection_file = os.path.join(inputDir, outputPath)
 
     # directory for mask rcnn detection frames
-    os.makedirs(outputFolder, exist_ok=True)
+    os.makedirs(os.path.join(inputDir, outputFolder), exist_ok=True)
 
     framesPath = os.path.join( inputDir, framesDir)
+    os.makedirs(framesPath, exist_ok=True)
     # checks if there are enough frames in framesPath
+
     num_frames = len(os.listdir(framesPath))
     print(framesPath, num_frames)
     if num_frames < 500:
