@@ -76,7 +76,7 @@ Note that a lot of the requirements will not be installed by default. These need
 
 ## Usage
 1. Inside the conda environment, run `python setup.py` to get resources folder containing dataset and model weights.
-2. Try to run `python main.py`. It will run into an error stating that a dependency was not found.
+2. . Try to run `python main.py`. It will run into an error stating that a dependency was not found.
 3. Manually install the dependency with `conda install DEPENDENCY` (occasionally with `conda install -c CHANNEL DEPENDENCY`, where the channel name can be found by searching for the dependency file in the [Anaconda cloud](https://anaconda.org/)).
 4. Repeat Steps 2-3 till all dependency issues are resolved and the GUI opens.
 5. We provide the options of GUI and command line control:<br>

@@ -147,17 +147,24 @@ def detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, 
 
     # det,txt path
     detection_file = os.path.join(inputDir, outputPath)
-    if os.path.exists(detection_file):
-    	os.remove(detection_file)
 
     # directory for mask rcnn detection frames
     os.makedirs(outputFolder, exist_ok=True)
 
+    framesPath = os.path.join( inputDir, framesDir)
+    # checks if there are enough frames in framesPath
+    num_frames = len(os.listdir(framesPath))
+    print(framesPath, num_frames)
+    if num_frames < 500:
+        if(thread):
+            thread.signalCanvas("Extracting frames from {}".format(inputFile))
+        frames = extract_frames(video_path, framesDir)
+    else:
+        if(thread):
+            thread.signalCanvas("Found {} frames in  {}. Delete this folder to re-extract frames".format(num_frames, framesPath))
+        frames = sorted(os.listdir(framesPath))
     if(thread):
         thread.signalCanvas("Extracting frames from {}".format(inputFile))
-
-    frames = extract_frames(video_path, framesDir)
-    num_frames = len(frames)
 
     start_time_each_video = time.time()
     time_per_frame = []
