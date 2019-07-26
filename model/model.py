@@ -54,21 +54,28 @@ class TnpModel:
         framesDIr (directory containing frames)
         outputTxt: output path of textfile
         """
-        # detect(inputDir, inputFile, framesDir, outputPath, conf, nms, thread)
         yolo_detect(inputDir, inputFile, framesDir, outputPath, outputFolder, conf, nms, cuda, thread)
 
     def tracking(self, dataDir, data_folder, display=True, thread=None):
         if thread:
             thread.signalCanvas("\n[INFO] Generating Features...")
-        gen_feats(dataDir, data_folder, thread)
+        
+        densp_file_path = os.path.join(os.path.join(dataDir, data_folder), "densep.npy")
+        if(os.path.exists(densp_file_path)):
+            if(thread):
+                line = "\n[INFO]: Found {}. Delete this file to generate features again for densepeds.".format(densp_file_path)
+                thread.signalCanvas(line)
+            print(line)
+        else:
+            gen_feats(dataDir, data_folder, thread)
+
+
         if thread:
             thread.signalCanvas("\n[INFO] Running Densepeds...")
 
         densepeds(dataDir, data_folder, display, thread)
-        # subprocess.call(["python", DENS_PEDS, "--video_folder", data_folder])
 
     def format(self, dataDir, data_folder, thread=None):
-        thread.signalCanvas(data_folder)
         dsetId = re.search(r'\d+', data_folder).group()
         fileName = data_folder
         data_folder = os.path.join(dataDir, data_folder)
@@ -129,7 +136,7 @@ class TnpModel:
 
         if predAlgo == "Traphic":
             if thread:
-                thread.signalCanvas("\n[INFO]: Using TRAFPHIC model")
+                thread.signalCanvas("\n[INFO]: Using TRAPHIC model")
             args["ours"] = True
             args['train_flag'] = True
             net = traphicNet(args)
@@ -170,9 +177,14 @@ class TnpModel:
         if thread:
             thread.signalCanvas("\n[INFO]: Loss: \n" + str(crossEnt))
 
-        # TODO Take out this hardcode
-        trSet = ngsimDataset('model/Prediction/data/TRAF/TrainSet.npy')
-        valSet = ngsimDataset('model/Prediction/data/TRAF/ValSet.npy')
+        
+        # name of 
+        dataset_name = viewArgs["dir"].split('/')[2]
+        prediction_data_path = 'model/Prediction/data/{}'.format(dataset_name)
+        trSet_path = os.path.join(prediction_data_path, "TrainSet.npy")
+        valSet_path = os.path.join(prediction_data_path, "ValSet.npy")
+        trSet = ngsimDataset(trSet_path)
+        valSet = ngsimDataset(valSet_path)
 
         trDataloader = DataLoader(trSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=trSet.collate_fn)
         valDataloader = DataLoader(valSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=valSet.collate_fn)
@@ -248,13 +260,19 @@ class TnpModel:
 
 
         # TODO: More hardcodes
-        trSet = ngsimDataset('model/Prediction/data/TRAF/TrainSet.npy')
+        dataset_name = viewArgs["dir"].split('/')[2]
+        prediction_data_path = 'model/Prediction/data/{}'.format(dataset_name)
+        trSet_path = os.path.join(prediction_data_path, "TrainSet.npy")
+        valSet_path = os.path.join(prediction_data_path, "ValSet.npy")
+        tstSet_path = os.path.join(prediction_data_path, "TestSet.npy")
+
+        trSet = ngsimDataset(trSet_path)
         trDataloader = DataLoader(trSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=trSet.collate_fn)
 
-        testSet = ngsimDataset('model/Prediction/data/TRAF/TestSet.npy')
+        testSet = ngsimDataset(valSet_path)
         testDataloader = DataLoader(testSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=testSet.collate_fn)
 
-        valSet = ngsimDataset('model/Prediction/data/TRAF/ValSet.npy')
+        valSet = ngsimDataset(tstSet_path)
         valDataloader = DataLoader(valSet,batch_size=args['batch_size'],shuffle=True,num_workers=8,collate_fn=valSet.collate_fn)
 
         if predAlgo == "Traphic":

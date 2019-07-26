@@ -1,14 +1,20 @@
 # TrackNPred: A Software Framework for End-to-End Trajectory Prediction
 
-This is the code base for our paper (*Under Review*). Please consider citing our work if you found this useful:
+This is the code base for our ACM CSCS 2019 paper,
+
+[**RobustTP: End-to-End Trajectory Prediction for Heterogeneous Road-Agents in Dense Traffic with Noisy Sensor Inputs**](https://arxiv.org/pdf/1907.08752.pdf). <br>
+Rohan Chandra, Uttaran Bhattacharya, Christian Roncal, Aniket Bera, Dinesh Manocha
+
+Please cite our work if you found this useful:
 
 ```
-Example Bibtex (to be replaced):
-
-@misc{ Nobody06,
-       author = "Nobody Jr",
-       title = "My Article",
-       year = "2006" }
+@article{chandra2019robusttp,
+  title={RobustTP: End-to-End Trajectory Prediction for Heterogeneous
+Road-Agents in Dense Traffic with Noisy Sensor Inputs},
+  author={Chandra, Rohan and Bhattacharya, Uttaran and Roncal, Christian and Bera, Aniket and Manocha, Dinesh},
+  journal={arXiv preprint arXiv:1907.08752},
+  year={2019}
+}
 ```
 
 ## A Visualized Approach to Deep Learning
@@ -32,34 +38,48 @@ TrackNPred currently supports the following:
 
 <img src="img/trackedTRAFCSCS19.png">
 
-3. **Trajectory Prediction**
+2. **Trajectory Prediction**
 <ul>
-<li> <a href="https://arxiv.org/abs/1803.10892"> Social-GAN </a> </li>
-<li> <a href="https://arxiv.org/abs/1805.06771" >Convolutional Social LSTM </a>(Not Implemented yet) </li>
-<li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> TraPHic </a></li>
+<li> <a href="https://arxiv.org/abs/1803.10892"> <b>Social GAN: Socially Acceptable Trajectories with Generative Adversarial Networks,</b> CVPR'18  </a><br>
+Agrim Gupta, Justin Johnson, Fei-Fei Li, Silvio Savarese, Alexandre Alahi 
+</li>
+	
+<li> <a href="https://arxiv.org/abs/1805.06771" ><b>Convolutional Social Pooling for Vehicle Trajectory Prediction,</b> CVPRW'18</a> <br>
+Nachiket Deo and Mohan M. Trivedi
+</li>
+<li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> <b>TraPHic: Trajectory Prediction in Dense and Heterogeneous Traffic Using Weighted Interactions,</b> CVPR'19 </a><br>
+Rohan Chandra, Uttaran Bhattacharya, Aniket Bera, Dinesh Manocha 
+</li>
 
 ## Dependencies
 Support Python 3.5 and above. For a list of dependencies see requirements.txt
 
 ### Installing Dependencies:
-1. With pip or pip3 (Preferred Python 3): <br>
-`pip3 install -r requirements.txt`
-2. Creating a conda environement<br>
-`conda create --name <env name e.g. tracknpred> --file requirements.txt`
+1. Create a conda environement<br>
+`conda create --name <env name e.g. tnp>`
+2. Source into the environment<br>
+`source activate <env name>`
+3. Install the set of requirements<br>
+`cd /path/to/requirements_file`<br>
+`conda install --file requirements.txt`
+<br>
+Note that a lot of the requirements will not be installed by default. These need to installed manually as described later.
 
 ## Dataset
-* Currently we only accept mp4 file. 
+* Currently we only accept .mp4 file. 
 * The mp4 file must consist of a string and a number after that string.
 * We need to create a folder that has the same name as the video file and put the video in that folder. 
 * The datafolder needs to exist in the Direcotry specified in the GUI/commandline.<br>
-	Example: if the data directory is `resources/data/TRAF`, and the video name is `DEMO.mp4`, then the location of the video should be `resources/data/TRAF/DEMO/DEMO.mp4`.
+	Example: if the data directory is `resources/data/TRAF`, and the video name is `TRAFx.mp4`, then the location of the video should be `resources/data/TRAF/TRAFx/TRAFx.mp4`.
+* Note that currently, all the data has to reside inside `resources/data`.
 * All of the files generated will be in the corresponding datafolder.
 
 ## Usage
-1. Run `python setup.py` to get resources folder containing dataset and model weights
-2. Install Dependencies. See [Dependencies](##Dependencies)
-3. Prepare the dataset. See [Dataset](##Dataset) section for more details.
-4. We provide the options of GUI and command line control:<br>
+1. Inside the conda environment, run `python setup.py` to get resources folder containing dataset and model weights.
+2. . Try to run `python main.py`. It will run into an error stating that a dependency was not found.
+3. Manually install the dependency with `conda install DEPENDENCY` (occasionally with `conda install -c CHANNEL DEPENDENCY`, where the channel name can be found by searching for the dependency file in the [Anaconda cloud](https://anaconda.org/)).
+4. Repeat Steps 2-3 till all dependency issues are resolved and the GUI opens.
+5. We provide the options of GUI and command line control:<br>
 	Examples:
 	* Run `python main.py` to get the GUI, which will give you the options you can choose.
 	* Run `python main_cmd.py -l 11 12` to run dataset TRAF11 and TRAF12 in command line.
@@ -82,3 +102,7 @@ We also evaluate RobustTP using trajectory histories that are computed by two de
 Using Mask R-CNN            |  Using YOLO
 :-------------------------:|:-------------------------:
 ![](img/rmse.png)  |  ![](img/rmse_yolo.png)
+
+### TrackNPred is developed and maintained by-
+1. [**Tianrui Guan**](https://www.linkedin.com/in/tianrui-guan-b76733ba/detail/contact-info/).
+2. [**Christian Roncal**](https://github.com/christian-rncl).

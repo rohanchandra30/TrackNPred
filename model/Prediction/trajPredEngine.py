@@ -16,7 +16,6 @@ class TrajPredEngine:
         self.train_loader = train_loader
         self.val_loader = val_loader
         self.cuda = args['cuda']
-        # self.cuda = False
         self.eval_only = args['eval']
         self.thread = thread
 
@@ -115,9 +114,7 @@ class TrajPredEngine:
         epoch = engine.state.epoch
 
         _, _, _, _, _, _, _, fut, op_mask = batch
-        print("got batch")
         fut_pred = self.netPred(batch)
-        print("eval forward pass finishes")
         if self.cuda:
             fut = fut.cuda()
             op_mask = op_mask.cuda()
@@ -159,7 +156,6 @@ class TrajPredEngine:
 
     def validate(self, engine):
         self.evaluator.run(self.val_loader)
-        print("validate finishes")
         max_epochs =self.args["pretrainEpochs"] + self.args["trainEpochs"]
         if self.thread:
             if not self.eval_only:

@@ -51,11 +51,13 @@ def detect(inputDir, inputFile, framesDir, outputTxt, outputFolder, conf, nms, c
     print("model loaded: ", IMAGE_SIZE)
 
     imageOutPath = os.path.join(inputDir, outputFolder)
+    os.makedirs(imageOutPath, exist_ok=True)
 
     classes = load_classes("./resources/yolo-coco/coco.names")  # Extracts class labels from file
 
 
     framesPath = os.path.join( inputDir, framesDir)
+    os.makedirs(framesPath, exist_ok=True)
     # checks if there are enough frames in framesPath
     n_frames = len(os.listdir(framesPath))
     print(framesPath, n_frames)
