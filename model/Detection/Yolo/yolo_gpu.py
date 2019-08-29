@@ -97,6 +97,7 @@ def detect(inputDir, inputFile, framesDir, outputTxt, outputFolder, conf, nms, c
             thread.signalTopBar(max( (((batch_i + 1) / total) * 100), 1))
         # Configure input
         input_imgs = Variable(input_imgs.type(Tensor))
+        print(np.shape(input_imgs))
 
         # Get detections
         with torch.no_grad():

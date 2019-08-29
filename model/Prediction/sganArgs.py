@@ -3,7 +3,7 @@ import argparse
 from model.Prediction.sgan.utils import int_tuple, bool_flag, get_total_norm
 from model.Prediction.sgan.utils import relative_to_abs, get_dset_path
 
-args = {}
+argss = {}
 
 parser = argparse.ArgumentParser()
 
@@ -82,7 +82,7 @@ parser.add_argument('--dset_type', default='test', type=str)
 
 
 
-args = parser.parse_args()
+argss = parser.parse_args()
 
 # # Dataset options
 # args['dataset_name'] = 'ours/TRAF11'

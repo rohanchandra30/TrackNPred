@@ -81,8 +81,8 @@ Note that a lot of the requirements will not be installed by default. These need
 5. We provide the options of GUI and command line control:<br>
 	Examples:
 	* Run `python main.py` to get the GUI, which will give you the options you can choose.
-	* Run `python main_cmd.py -l 11 12` to run dataset TRAF11 and TRAF12 in command line.
-	* Run `python main_cmd.py -l 11 -detection False -tracking False -train True -eval True` to only run prediction training and evaluating on dataset TRAF11 in command line.
+	* Run `python main_cmd.py -l 11 -l 12` to run dataset TRAF11 and TRAF12 in command line.
+	* Run `python main_cmd.py -l 11 --detection False --tracking False --train True --eval True` to only run prediction training and evaluating on dataset TRAF11 in command line.
 		* `-l` is required. It takes in a series of numbers and specifies which dataset you want to run. 
 		* Other flags are not required, but you can play around the options that was provided in the GUI. Please see how they are defined in the [main_cmd.py](main_cmd.py) file.
 

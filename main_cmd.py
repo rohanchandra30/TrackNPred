@@ -1,11 +1,11 @@
+import argparse
+import warnings
 from model.model import TnpModel
 from model.utils import *
 from model.Tracking.hypo_formatter import formatFile
 from model.Tracking.import_data import import_data, merge_n_split
 
-import argparse
-import warnings
-warnings.filterwarnings("ignore")
+
 
 VERBOSE = True
 
@@ -59,9 +59,9 @@ if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="TrackNPred command line control")
 
+	parser.add_argument('--list', '-l', help='DATASet', action='append', required=True)
 	parser.add_argument('--dir', help="location of the dataset for tracking", default=DATA_DIR)
-	parser.add_argument('--predir', help="location of the dataset for trajectory prediction, result of tracking",
-		default=PRED_DATA_DIR)
+	parser.add_argument('--predir', help="location of the dataset for trajectory prediction, result of tracking", default=PRED_DATA_DIR)
 	parser.add_argument('--detection', '-d', help='enable detection step', default=DETECTION, type=bool)
 	parser.add_argument('--tracking', '-track', help='enable tracking step', default=TRACKING, type=bool)
 	parser.add_argument('--formatting', '-f', help='enable formatting step', default=FORMATTING, type=bool)
@@ -83,13 +83,13 @@ if __name__ == "__main__":
 	parser.add_argument('--modelLoc', help='trained prediction store/load location', default=MODELLOC)
 	parser.add_argument('--pretrain_loss', help='pretrain loss algorithm', default=PRETRAIN_LOSS)
 	parser.add_argument('--train_loss', help='train loss algorithm', default=TRAIN_LOSS)
-	parser.add_argument('--list', '-l', action='append', help='DATASet', required=True)
 
 	args = parser.parse_args()
 
-	model = TnpModel(None)
+	model = TnpModel()
 
 	file_names = []
+
 
 	for i in args.list:
 

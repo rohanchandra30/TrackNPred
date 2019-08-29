@@ -203,7 +203,8 @@ def run(sequence_dir, detection_file, output_file,matlab_file, min_confidence,
             alphachn = np.ones(shp, dtype=np.uint8) * int(alpha * 255)
             image = cv2.merge((c_red, c_green, c_blue, alphachn))
             vis.set_image(image.copy())
-            vis.draw_trackers(track_dic, frame_idx,tracker.tracks)
+            vis.draw_trackers(track_dic, frame_idx, tracker.tracks)
+            
         # Store results.
         # n_tracks = len(tracker.tracks)
         for track in tracker.tracks:
@@ -298,6 +299,7 @@ def densepeds(dataDir, video_folder, display=True, thread=None):
     detection_file = dataset + '/'+  video_folder + '/densep.npy'
     output_file = dataset + '/' +  video_folder + '/hypotheses.txt'
     matlab_file= '../MOT_Dataset/' +'amilan-motchallenge-devkit-7dccd0fb3214/res/MOT16/data/rohan/train_87.5conf/' + video_folder + '.txt'
+
 
     run(sequence_dir, detection_file, output_file, matlab_file, min_conf, nms, min_det_ht, max_cos_dist, nn_budget, disp, thread)
     print(video_folder, (time.time() - start_time))

@@ -2,6 +2,7 @@ import re
 import os
 import subprocess
 import torch
+import argparse
 # from model.Detection.Yolo.yolo import detect
 
 from model.Tracking.generate_features import gen_feats
@@ -17,7 +18,7 @@ from torch.utils.data import DataLoader
 import datetime
 from model.Prediction.sganTrain import main as sganTrain
 from model.Prediction.sganEval import main as sganEval
-from model.Prediction.sganArgs import args as sgan_args
+# from model.Prediction.sganArgs import argss as sgan_args
 
 # from model.Detection.Yolo.yolo_gpu import detect
 # from sganArgs import args as sgan_args
@@ -32,6 +33,59 @@ HOMO_FORMAT = "TRAF{}_H.txt"
 PRED_INPUT_FORMAT = "{}.npy"
 SGAN_INPUT_FORMAT = "{}.txt"
 # DATA_LOC = 
+
+sgan_args =argparse.Namespace()
+
+sgan_args.dataset_name='TRAF'
+sgan_args.delim = ' '
+sgan_args.loader_num_workers = 4
+sgan_args.obs_len = 8
+sgan_args.pred_len = 12 
+sgan_args.skip = 1
+sgan_args.batch_size = 64
+sgan_args.num_iterations = 10
+sgan_args.num_epochs = 20
+sgan_args.embedding_dim = 64
+sgan_args.num_layers = 1
+sgan_args.dropout = 0
+sgan_args.batch_norm = 0
+sgan_args.mlp_dim = 1024
+sgan_args.encoder_h_dim_g = 64
+sgan_args.decoder_h_dim_g = 128
+sgan_args.noise_dim = None
+sgan_args.noise_type =  'gaussian'
+sgan_args.noise_mix_type = 'ped'
+sgan_args.clipping_threshold_g = 0
+sgan_args.g_learning_rate = 5e-4
+sgan_args.g_steps =  1
+sgan_args.pooling_type =  'pool_net'
+sgan_args.pool_every_timestep = 1
+sgan_args.bottleneck_dim = 1024
+sgan_args.neighborhood_size = 2.0
+sgan_args.grid_size = 8
+sgan_args.d_type = 'local'
+sgan_args.encoder_h_dim_d = 64
+sgan_args.d_learning_rate = 5e-4 
+sgan_args.d_steps = 2
+sgan_args.clipping_threshold_d = 0
+sgan_args.l2_loss_weight = 0
+sgan_args.best_k = 1
+sgan_args.output_dir = os.path.join(os.getcwd(),"resources/trained_models")
+sgan_args.print_every = 1
+sgan_args.checkpoint_every = 20
+sgan_args.checkpoint_name = 'checkpoint'
+sgan_args.checkpoint_start_from = None
+sgan_args.restore_from_checkpoint = 0
+sgan_args.num_samples_check = 5000
+sgan_args.use_gpu = 1
+sgan_args.timing = 0
+sgan_args.gpu_num = "0"
+sgan_args.model_path = os.path.join(os.getcwd(),"resources/trained_models/checkpoint_with_model.pt")
+sgan_args.num_samples = 20
+sgan_args.dset_type = 'test'
+
+
+
 
 class TnpModel:
 
