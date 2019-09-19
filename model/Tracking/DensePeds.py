@@ -224,7 +224,10 @@ def run(sequence_dir, detection_file, output_file,matlab_file, min_confidence,
         visualizer = visualization.Visualization(seq_info, update_ms=5, loc=save_loc, thread=thread)
     else:
         visualizer = visualization.NoVisualization(seq_info)
-    visualizer.run(frame_callback, thread)
+    if thread:
+        visualizer.run(frame_callback, thread)
+    else:
+        visualizer.run(frame_callback)
 
     # if thread:
     #     thread.signalTopLabel("Saving results: %05d/%05d" % (0, seq_info["max_frame_idx"]))

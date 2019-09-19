@@ -119,7 +119,6 @@ class TnpModel:
             if(thread):
                 line = "\n[INFO]: Found {}. Delete this file to generate features again for densepeds.".format(densp_file_path)
                 thread.signalCanvas(line)
-            print(line)
         else:
             gen_feats(dataDir, data_folder, thread)
 
