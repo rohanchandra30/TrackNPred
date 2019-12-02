@@ -48,7 +48,7 @@ Nachiket Deo and Mohan M. Trivedi.
 </li>
 <li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> <b>TraPHic: Trajectory Prediction in Dense and Heterogeneous Traffic Using Weighted Interactions,</b> CVPR'19 </a><br>
 Rohan Chandra, Uttaran Bhattacharya, Aniket Bera, Dinesh Manocha.<br> 
-(We are currently in the process of making a separate release for our TraPHic code. That will be easier for people who just want to use that for trajectory prediction. We expect to make that release by mid-October 2019.)
+(We are currently in the process of making a separate release for our TraPHic code. That will be easier for people who just want to use that for trajectory prediction. We expect to make that release by mid-February 2020.)
 </li>
 
 ## Dependencies
