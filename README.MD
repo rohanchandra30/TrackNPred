@@ -47,10 +47,12 @@ Agrim Gupta, Justin Johnson, Fei-Fei Li, Silvio Savarese, Alexandre Alahi.
 Nachiket Deo and Mohan M. Trivedi.
 </li>
 <li> <a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Chandra_TraPHic_Trajectory_Prediction_in_Dense_and_Heterogeneous_Traffic_Using_Weighted_CVPR_2019_paper.pdf"> <b>TraPHic: Trajectory Prediction in Dense and Heterogeneous Traffic Using Weighted Interactions,</b> CVPR'19 </a><br>
-Rohan Chandra, Uttaran Bhattacharya, Aniket Bera, Dinesh Manocha.<br> 
-(We are currently in the process of making a separate release for our TraPHic code. That will be easier for people who just want to use that for trajectory prediction. We expect to make that release by mid-February 2020.)
+Rohan Chandra, Uttaran Bhattacharya, Aniket Bera, Dinesh Manocha.
 </li>
+</ul> 
 
+If you want to use TraPHic ONLY, then use [**this repository**](https://github.com/rohanchandra30/Spectral-Trajectory-Prediction) as it's easier.
+	
 ## Dependencies
 Support Python 3.5 and above. For a list of dependencies see requirements.txt
 
